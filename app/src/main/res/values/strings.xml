@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Health Foods</string>
+    <string name="settings">SETTINGS</string>
+    <string name="profile">PROFILE</string>
+    <string name="id_salesman">ID Salesman</string>
+    <string name="id_vehicle">ID Vehicle</string>
+    <string name="edit_id_salesman">Enter an ID for Salesman (numeric)</string>
+    <string name="edit_id_vehicle">Enter an ID for vehicle</string>
+    <string name="save">SAVE</string>
+    <string name="LocationTblUM">Location TblUM</string>
+    <string name="edit_LocationTblUM">Location TblUM</string>
+    <string name="LocationTblCustomers">Location TblCustomers</string>
+    <string name="edit_LocationTblCustomers">LocationTblCustomers</string>
+    <string name="LocationTblSalesDetail">Location TblSalesDetail</string>
+    <string name="edit_LocationTblSalesDetail">Location TblSalesDetail</string>
+    <string name="LocationTblSalesHead">Location TblSalesHead</string>
+    <string name="edit_LocationTblSalesHead">Location TblSalesHead</string>
+    <string name="LocationTblProducts">Location TblProducts</string>
+    <string name="edit_LocationTblProducts">Location TblProducts</string>
+    <string name="edit">EDIT</string>
+    <string name="update">UPDATE</string>
+    <string name="click_edit_udpate">Click on EDIT tu update the file location</string>
+</resources>

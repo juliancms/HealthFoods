@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.juliancms.healthfoods.ProfileActivity">
+
+    <TextView
+        android:id="@+id/id_salesman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/id_salesman"
+        tools:layout_editor_absoluteX="166dp"
+        tools:layout_editor_absoluteY="4dp" />
+
+    <EditText
+        android:id="@+id/edit_idsalesman"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        android:text="@string/edit_id_salesman"
+        app:layout_constraintTop_toBottomOf="@+id/id_salesman"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/id_vehicule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/id_vehicle"
+        app:layout_constraintTop_toBottomOf="@+id/edit_idsalesman"
+        tools:layout_editor_absoluteX="176dp" />
+
+    <EditText
+        android:id="@+id/edit_id_vehicle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/edit_id_vehicle"
+        app:layout_constraintTop_toBottomOf="@+id/id_vehicule"
+        tools:layout_editor_absoluteX="98dp" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/save"
+        app:layout_constraintTop_toBottomOf="@+id/edit_id_vehicle"
+        tools:layout_editor_absoluteX="161dp" />
+
+</android.support.constraint.ConstraintLayout>
