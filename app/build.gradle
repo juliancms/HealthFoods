@@ -5,7 +5,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.juliancms.healthfoods"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -39,4 +39,5 @@ dependencies {
 
     compile 'com.opencsv:opencsv:4.1'
     compile 'com.adityak:browsemyfiles:1.7'
+    compile 'com.github.travijuu:NumberPicker:v1.0.7'
 }

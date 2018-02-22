@@ -26,9 +26,7 @@ public class TblProfile extends BaseModel {
         this.IdSalesMan = IdSalesMan;
     }
 
-    public String getIdVehicles() {
-        return IdVehicles;
-    }
+    public String getIdVehicles() { return IdVehicles; }
 
     public void setIdVehicles(String IdVehicles){
         this.IdVehicles = IdVehicles;

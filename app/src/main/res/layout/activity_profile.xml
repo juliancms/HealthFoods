@@ -12,7 +12,8 @@
         android:layout_height="wrap_content"
         android:text="@string/id_salesman"
         tools:layout_editor_absoluteX="166dp"
-        tools:layout_editor_absoluteY="4dp" />
+        tools:layout_editor_absoluteY="4dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/edit_idsalesman"
@@ -25,7 +26,8 @@
         android:singleLine="false"
         android:text="@string/edit_id_salesman"
         app:layout_constraintTop_toBottomOf="@+id/id_salesman"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/id_vehicule"
@@ -34,7 +36,8 @@
         android:layout_marginTop="8dp"
         android:text="@string/id_vehicle"
         app:layout_constraintTop_toBottomOf="@+id/edit_idsalesman"
-        tools:layout_editor_absoluteX="176dp" />
+        tools:layout_editor_absoluteX="176dp"
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/edit_id_vehicle"
@@ -45,7 +48,8 @@
         android:inputType="textPersonName"
         android:text="@string/edit_id_vehicle"
         app:layout_constraintTop_toBottomOf="@+id/id_vehicule"
-        tools:layout_editor_absoluteX="98dp" />
+        tools:layout_editor_absoluteX="98dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/save"
@@ -54,6 +58,7 @@
         android:layout_marginTop="8dp"
         android:text="@string/save"
         app:layout_constraintTop_toBottomOf="@+id/edit_id_vehicle"
-        tools:layout_editor_absoluteX="161dp" />
+        tools:layout_editor_absoluteX="161dp"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>

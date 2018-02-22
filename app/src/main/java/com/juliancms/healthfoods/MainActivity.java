@@ -22,4 +22,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
     }
+
+    /** Called when the user taps the New Sale button */
+    public void saleCustomer(View view) {
+        Intent intent = new Intent(this, SaleCustomerActivity.class);
+        startActivity(intent);
+    }
 }

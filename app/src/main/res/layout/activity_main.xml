@@ -13,7 +13,8 @@
         android:onClick="settings"
         android:text="@string/settings"
         tools:layout_editor_absoluteX="161dp"
-        tools:layout_editor_absoluteY="16dp" />
+        tools:layout_editor_absoluteY="16dp"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/profile"
@@ -23,5 +24,17 @@
         android:onClick="profile"
         android:text="@string/profile"
         app:layout_constraintTop_toBottomOf="@+id/settings"
-        tools:layout_editor_absoluteX="0dp" />
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/sale"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="saleCustomer"
+        android:text="@string/new_sale"
+        app:layout_constraintTop_toBottomOf="@+id/profile"
+        tools:layout_editor_absoluteX="147dp"
+        tools:ignore="MissingConstraints" />
 </android.support.constraint.ConstraintLayout>
