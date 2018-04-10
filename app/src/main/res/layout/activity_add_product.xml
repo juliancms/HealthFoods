@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,20 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/button_products"
-                style="@style/Widget.AppCompat.Button.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:text="@string/products_added"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginRight="8dp" />
-
             <SearchView
                 android:id="@+id/sv"
-                android:layout_width="250dp"
+                android:layout_width="fill_parent"
                 android:layout_height="match_parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -44,10 +33,10 @@
         <ListView
             android:id="@+id/lv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="8dp">
 
         </ListView>
-
-
     </android.support.constraint.ConstraintLayout>
 </android.support.design.widget.CoordinatorLayout>

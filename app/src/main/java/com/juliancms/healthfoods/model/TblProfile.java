@@ -16,6 +16,9 @@ public class TblProfile extends BaseModel {
     int IdSalesMan;
 
     @Column
+    String PrefixSalesMan;
+
+    @Column
     String IdVehicles;
 
     public Integer getIdSalesMan() {
@@ -30,6 +33,12 @@ public class TblProfile extends BaseModel {
 
     public void setIdVehicles(String IdVehicles){
         this.IdVehicles = IdVehicles;
+    }
+
+    public String getPrefixSalesMan() { return PrefixSalesMan; }
+
+    public void setPrefixSalesMan(String PrefixSalesMan){
+        this.PrefixSalesMan = PrefixSalesMan;
     }
 
 }

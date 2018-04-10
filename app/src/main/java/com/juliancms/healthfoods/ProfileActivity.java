@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.juliancms.healthfoods.model.TblProfile;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -42,8 +43,14 @@ public class ProfileActivity extends AppCompatActivity {
                 profile.setIdSalesMan(Integer.parseInt(editText.getText().toString()));
                 editText = (EditText) findViewById(R.id.edit_id_vehicle);
                 String id_vehicle = editText.getText().toString();
+                editText = (EditText) findViewById(R.id.edit_prefixsalesman);
+                String prefixsalesman = editText.getText().toString();
                 profile.setIdVehicles(id_vehicle);
-                profile.save();
+                profile.setPrefixSalesMan(prefixsalesman);
+                if(profile.save()){
+                    Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

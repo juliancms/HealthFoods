@@ -1,12 +1,15 @@
 package com.juliancms.healthfoods;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.juliancms.healthfoods.model.TblProducts;
@@ -22,13 +25,23 @@ public class AddProductsActivity extends AppCompatActivity {
     ArrayList<TblProducts> TblProductsList = (ArrayList<TblProducts>) SQLite.select().
             from(TblProducts.class).queryList();
     ArrayList<TblProducts> ProductsAdded = new ArrayList<>();
-    TblProducts p = new TblProducts();
+    ArrayList<String> productDescription=new ArrayList<String>();
+    ArrayList<String> productPrice=new ArrayList<String>();
+    ArrayList<String> productID=new ArrayList<String>();
+    ArrayList<String> productQuantity=new ArrayList<String>();
+    ArrayList<String> productTotal=new ArrayList<String>();
+    String PricingLevel;
+
+    public static final Integer REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        Intent i = getIntent();
+        PricingLevel = i.getExtras().getString("PricingLevel");
         sv= (SearchView) findViewById(R.id.sv);
-        populateProductsList();
+        populateProductsList(TblProductsList, PricingLevel);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -41,22 +54,10 @@ public class AddProductsActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-//        final int size = TblProductsList.size();
-//        for (TblProducts product: TblProductsList) {
-//            Products.add(product.getItemDescription());
-//        }
-//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-//                this,
-//                android.R.layout.simple_list_item_1,
-//                Products );
-//        lv.setAdapter(arrayAdapter);
     }
-    private void populateProductsList() {
-        // Construct the data source
-        ArrayList<TblProducts> arrayOfProducts = TblProductsList;
+    private void populateProductsList(ArrayList products, String PricingLevel) {
         // Create the adapter to convert the array to views
-        CustomProductsAdapter adapter = new CustomProductsAdapter(this, arrayOfProducts);
+        CustomProductsAdapter adapter = new CustomProductsAdapter(this, products, AddProductsActivity.this, PricingLevel);
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);
@@ -67,7 +68,7 @@ public class AddProductsActivity extends AppCompatActivity {
                 from(TblProducts.class).
                 where(TblProducts_Table.ItemDescription.like("%" + searchTerm + "%")).queryList();
 
-        CustomProductsAdapter adapter = new CustomProductsAdapter(this, ProductsArray);
+        CustomProductsAdapter adapter = new CustomProductsAdapter(this, ProductsArray, AddProductsActivity.this, PricingLevel);
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);
@@ -77,18 +78,21 @@ public class AddProductsActivity extends AppCompatActivity {
     public void onClickProduct(View v)
     {
         ConstraintLayout vwParentRow = (ConstraintLayout)v.getParent();
-        TextView childDescription = (TextView)vwParentRow.getChildAt(0);
-        TextView childPrice = (TextView)vwParentRow.getChildAt(1);
-        TextView childID = (TextView)vwParentRow.getChildAt(3);
-
-        p.setItemID(childID.getText().toString());
-        p.setItemDescription(childDescription.getText().toString());
-        p.setSalesPrice1(childPrice.getText().toString());
-        ProductsAdded.add(p);
-        Button button_products = (Button) findViewById(R.id.button_products);
-        button_products.setText(ProductsAdded.size() + " PRODUCTS ADDED");
-//        Integer index = (Integer) v.getTag();
-//        items.remove(index.intValue());
+        TextView childDescription = (TextView)vwParentRow.findViewById(R.id.productADescription);
+        TextView childPrice = (TextView)vwParentRow.findViewById(R.id.productPrice);
+        TextView childID = (TextView)vwParentRow.findViewById(R.id.productID);
+        TextView childTax = (TextView)vwParentRow.findViewById(R.id.productTax);
+        Spinner childUM = (Spinner)vwParentRow.findViewById(R.id.productUM);
+        EditText childQuantity = (EditText)vwParentRow.findViewById(R.id.productQuantity);
+        Intent intent=new Intent();
+        intent.putExtra("productID", childID.getText().toString());
+        intent.putExtra("productTax", childTax.getText().toString());
+        intent.putExtra("productDescription", childDescription.getText().toString());
+        intent.putExtra("productPrice", childPrice.getText().toString());
+        intent.putExtra("productUM", childUM.getSelectedItem().toString());
+        intent.putExtra("productQuantity", childQuantity.getText().toString());
+        setResult(2,intent);
+        finish();
     }
 
 }

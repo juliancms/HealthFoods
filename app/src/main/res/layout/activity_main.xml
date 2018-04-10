@@ -33,8 +33,30 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:onClick="saleCustomer"
-        android:text="@string/new_sale"
+        android:text="@string/new_sale_cash"
         app:layout_constraintTop_toBottomOf="@+id/profile"
-        tools:layout_editor_absoluteX="147dp"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="147dp" />
+
+    <Button
+        android:id="@+id/credit_sale"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="saleCreditCustomer"
+        android:text="@string/new_sale_credit"
+        app:layout_constraintTop_toBottomOf="@+id/sale"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/invoices"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:onClick="invoices"
+        android:text="@string/invoices"
+        app:layout_constraintTop_toBottomOf="@+id/credit_sale"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/invoice_activity"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="com.juliancms.healthfoods.InvoiceActivity">
+
+    <TextView
+        android:id="@+id/saleType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/saleID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp" />
+
+    <TextView
+        android:id="@+id/Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saleType"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/customerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saleID"
+        android:layout_marginLeft="8dp" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ly1"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/product"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/quantity_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/qty"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/um_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/um"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/price_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/price"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/total"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="8dp" />
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly2"
+    android:layout_width="match_parent"
+    android:layout_height="28dp"
+    app:layout_constraintTop_toBottomOf="@+id/lv"
+    tools:ignore="MissingConstraints"
+    tools:layout_editor_absoluteX="0dp">
+
+    <TextView
+        android:id="@+id/sub_total"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/total_tax"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+        android:textStyle="bold"
+        android:layout_marginEnd="10dp" />
+
+    <TextView
+        android:id="@+id/total_total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+        android:textStyle="bold" />
+
+</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

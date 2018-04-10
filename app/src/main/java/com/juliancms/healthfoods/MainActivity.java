@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +27,20 @@ public class MainActivity extends AppCompatActivity {
     /** Called when the user taps the New Sale button */
     public void saleCustomer(View view) {
         Intent intent = new Intent(this, SaleCustomerActivity.class);
+        intent.putExtra("sale_type", 1);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the New Sale button */
+    public void saleCreditCustomer(View view) {
+        Intent intent = new Intent(this, SaleCustomerActivity.class);
+        intent.putExtra("sale_type", 2);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the New Sale button */
+    public void invoices(View view) {
+        Intent intent = new Intent(this, InvoicesActivity.class);
         startActivity(intent);
     }
 }

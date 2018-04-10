@@ -3,17 +3,21 @@
     <string name="settings">SETTINGS</string>
     <string name="profile">PROFILE</string>
     <string name="id_salesman">ID Salesman</string>
+    <string name="prefix_salesman">Prefix Salesman</string>
     <string name="id_vehicle">ID Vehicle</string>
     <string name="edit_id_salesman">Enter an ID for Salesman (numeric)</string>
     <string name="edit_id_vehicle">Enter an ID for vehicle</string>
     <string name="save">SAVE</string>
     <string name="import_customers">IMPORT CUSTOMERS</string>
     <string name="import_products">IMPORT PRODUCTS</string>
+    <string name="export_invoices">EXPORT INVOICES</string>
     <string name="edit">EDIT</string>
     <string name="update">UPDATE</string>
     <string name="customer">CUSTOMER</string>
-    <string name="new_sale">NEW SALE</string>
+    <string name="new_sale_cash">NEW CASH SALE</string>
+    <string name="new_sale_credit">NEW CREDIT SALE</string>
     <string name="date">DATE</string>
+    <string name="invoices">INVOICES</string>
     <string name="product">PRODUCT</string>
     <string name="qty">QTY</string>
     <string name="dct">DCT</string>
@@ -21,9 +25,41 @@
     <string name="total">TOTAL</string>
     <string name="add_symbol">+</string>
     <string name="remove_symbol">-</string>
+    <string name="checkout">CHECKOUT >></string>
     <string name="add_products">ADD PRODUCTS >></string>
     <string name="add_products_title">ADD PRODUCTS</string>
+    <string name="add_product">ADD PRODUCT</string>
+    <string name="um">UM</string>
     <string name="add">+ ADD</string>
     <string name="products_added">0 PRODUCTS ADDED</string>
     <string name="click_edit_udpate">Click on EDIT tu update the file location</string>
+    <string name="um_prompt">Choose a UM</string>
+    <string name="directory_selected_label">Directory selected:</string>
+    <string name="choose_directory">Choose Directory</string>
+    <string name="none">none</string>
+    <string name="btn_choose">Choose in Dialog</string>
+    <string name="btn_switch">Switch to Dialog Sample</string>
+    <string-array name="um_arrays">
+        <item>BAG25LBS</item>
+        <item>BALE48</item>
+        <item>BULK5LBS</item>
+        <item>CASE10</item>
+        <item>CASE12</item>
+        <item>CASE16</item>
+        <item>CASE18</item>
+        <item>CASE20</item>
+        <item>CASE24</item>
+        <item>CASE25</item>
+        <item>CASE30</item>
+        <item>CASE36</item>
+        <item>CASE4</item>
+        <item>CASE48</item>
+        <item>CASE6</item>
+        <item>CASE72</item>
+        <item>CASE8</item>
+        <item>CASE96</item>
+        <item>LBS</item>
+        <item>PACK300</item>
+        <item>UNITS</item>
+    </string-array>
 </resources>

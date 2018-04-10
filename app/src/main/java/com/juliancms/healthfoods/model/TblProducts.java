@@ -18,6 +18,8 @@ public class TblProducts extends BaseModel {
     @Column
     String ItemID;
 
+    TblSalesDetail SaleProduct;
+
     @Column
     String ItemDescription;
 

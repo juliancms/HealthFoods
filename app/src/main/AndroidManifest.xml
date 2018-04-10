@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:tools="http://schemas.android.com/tools"
     package="com.juliancms.healthfoods">
-
     <application
         android:name=".HealthFoods"
         android:allowBackup="true"
@@ -12,6 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        tools:replace="android:theme"
         tools:ignore="HardcodedDebugMode">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -36,7 +38,10 @@
         </activity>
         <activity android:name=".SaleActivity" />
         <activity android:name=".AddProductsActivity" />
-        <activity android:name=".SaleCustomerActivity"></activity>
+        <activity android:name=".SaleCustomerActivity" />
+        <activity android:name=".CheckoutActivity" />
+        <activity android:name=".InvoicesActivity" />
+        <activity android:name=".InvoiceActivity"></activity>
     </application>
 
 </manifest>
