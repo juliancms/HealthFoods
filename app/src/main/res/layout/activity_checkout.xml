@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.juliancms.healthfoods.CheckoutActivity">
+
+    <TextView
+        android:id="@+id/customer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ly1"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/product_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/product"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/quantity_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/qty"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/price_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/price"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/total"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/remove_item"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="75dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="91dp" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ly2"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        app:layout_constraintTop_toBottomOf="@+id/lv"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total_total_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/total"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ly2"
+        tools:layout_editor_absoluteX="161dp"
+        tools:ignore="MissingConstraints" />
+</android.support.constraint.ConstraintLayout>
