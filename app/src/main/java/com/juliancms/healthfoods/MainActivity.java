@@ -39,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** Called when the user taps the New Sale button */
+    public void saleReturnCustomer(View view) {
+        Intent intent = new Intent(this, SaleCustomerActivity.class);
+        intent.putExtra("sale_type", 3);
+        startActivity(intent);
+    }
+
+    /** Called when the user taps the New Sale button */
     public void invoices(View view) {
         Intent intent = new Intent(this, InvoicesActivity.class);
         startActivity(intent);

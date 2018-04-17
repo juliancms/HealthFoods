@@ -55,8 +55,9 @@ public class SaleCustomerActivity extends AppCompatActivity {
             setTitle("New Cash Sales");
         } else if(sale_type == 2){
             setTitle("New Credit Sales");
+        } else if(sale_type == 3) {
+            setTitle("New Returns");
         }
-        Log.e("SALETYPE", "onCreate: " +sale_type );
         List<TblCustomers> TblCustomersList = SQLite.select().
                 from(TblCustomers.class).queryList();
         List Customers = new ArrayList();

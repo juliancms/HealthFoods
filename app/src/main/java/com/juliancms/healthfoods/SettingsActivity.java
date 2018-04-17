@@ -141,7 +141,11 @@ public class SettingsActivity extends AppCompatActivity {
                 } else {
                     Amount = sales.getQuantityS() * Double.parseDouble(sales.getUnitPriceS());
                 }
-                sale.add("-" + Amount.toString());
+                if(Integer.parseInt(sales.saleHead.getType()) < 3){
+                    sale.add("-" + Amount.toString());
+                } else {
+                    sale.add(Amount.toString());
+                }
                 sale.add(sales.product.getGlInventoryAccount());
                 sale.add(sales.product.getGLCOGSSalaryAcct());
                 sale.add("1");
