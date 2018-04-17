@@ -28,6 +28,8 @@ public class ProfileActivity extends AppCompatActivity {
             editText.setText(tblprofile.getIdSalesMan().toString());
             editText = (EditText) findViewById(R.id.edit_id_vehicle);
             editText.setText(tblprofile.getIdVehicles().toString());
+            editText = (EditText) findViewById(R.id.edit_prefixsalesman);
+            editText.setText(tblprofile.getPrefixSalesMan().toString());
         }
         SaveData = (Button)findViewById(R.id.save);
         SaveData.setOnClickListener(new View.OnClickListener() {

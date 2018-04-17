@@ -24,12 +24,14 @@ public class CustomNewSaleAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Activity activity;
     public static Double total;
+    public static Double total_tax;
 
     public CustomNewSaleAdapter(Context c, ArrayList<ProductsAdded> products, Activity activity) {
         this.c = c;
         this.products = products;
         this.activity = activity;
         this.total = null;
+        this.total_tax = null;
     }
 
     static class ViewHolder {
@@ -98,6 +100,7 @@ public class CustomNewSaleAdapter extends BaseAdapter {
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
         total_total.setText("TOTAL: $" + total.toString());
         this.total = total;
+        this.total_tax = totalTax;
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.quantity.setText(products.get(position).getItemQuantity().toString());
         holder.um.setText(products.get(position).getItemUM().toString());
@@ -128,6 +131,9 @@ public class CustomNewSaleAdapter extends BaseAdapter {
 
     public static Double getTotal(){
         return total;
+    }
+    public static Double getTotalTax(){
+        return total_tax;
     }
 
 }

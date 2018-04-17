@@ -18,6 +18,7 @@
                 android:id="@+id/sv"
                 android:layout_width="fill_parent"
                 android:layout_height="match_parent"
+                android:imeOptions="flagNoExtractUi"
                 app:layout_constraintStart_toStartOf="parent">
 
             </SearchView>

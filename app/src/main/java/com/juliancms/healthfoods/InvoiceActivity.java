@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.juliancms.healthfoods.model.TblSalesDetail;
+import com.juliancms.healthfoods.model.TblSalesDetail_Table;
 import com.juliancms.healthfoods.model.TblSalesHead;
 import com.juliancms.healthfoods.model.TblSalesHead_Table;
 import com.juliancms.healthfoods.utils.CustomInvoiceAdapter;
@@ -25,7 +26,10 @@ public class InvoiceActivity extends AppCompatActivity {
         TblSalesHead sale = SQLite.select().
                 from(TblSalesHead.class).
                 where(TblSalesHead_Table.IdSalesHead.eq(Long.valueOf(saleID))).querySingle();
-        CustomInvoiceAdapter adapter = new CustomInvoiceAdapter(this, (ArrayList<TblSalesDetail>) sale.oneToManyTblSalesDetail(), InvoiceActivity.this);
+        ArrayList<TblSalesDetail> products = (ArrayList<TblSalesDetail>)  SQLite.select().
+                from(TblSalesDetail.class).
+                where(TblSalesDetail_Table.saleHead_IdSalesHead.eq(Long.valueOf(saleID))).queryList();
+        CustomInvoiceAdapter adapter = new CustomInvoiceAdapter(this, products, InvoiceActivity.this);
         TextView tvType = (TextView) findViewById(R.id.saleType);
         TextView tvSaleID = (TextView) findViewById(R.id.saleID);
         TextView tvDate = (TextView) findViewById(R.id.Date);

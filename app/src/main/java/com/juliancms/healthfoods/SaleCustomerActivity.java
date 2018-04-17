@@ -28,8 +28,9 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.FastStoreModelTransaction;
 
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -172,17 +173,18 @@ public class SaleCustomerActivity extends AppCompatActivity {
         Integer days = Integer.parseInt(Customer.getDueDays());
         long date = System.currentTimeMillis();
         DateTime dt = new DateTime(date);
-        dt = dt.plusDays(days);
-        SimpleDateFormat sdf = new SimpleDateFormat("M/dd/yyyy");
-        String dateString = sdf.format(date);
-        String dateDue = sdf.format(dt);
+        DateTime dtdue = dt.plusDays(days);
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
+        String dateString = dtf.print(dt);
+        String dateDue = dtf.print(dtdue);
         sale.setDateS(dateString);
         sale.setDateDue(dateDue);
-        SimpleDateFormat sdf2 = new SimpleDateFormat("M/dd/yyyy HH:mm");
-        String dateString2 = sdf2.format(date);
+        DateTimeFormatter dtf2 = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm");
+        String dateString2 = dtf2.print(dt);
         sale.setDateV(dateString2);
         sale.setType(sale_type);
         sale.customer = Customer;
+        sale.setNoDistrib(products.size());
         List<TblProfile> TblProfileList = SQLite.select().
                 from(TblProfile.class).queryList();
         for (TblProfile tblprofile: TblProfileList) {
@@ -201,10 +203,24 @@ public class SaleCustomerActivity extends AppCompatActivity {
                         where(TblProducts_Table.id.eq(Long.valueOf(product.getItemID()))).querySingle();
                 sale_detail.product = product_db;
                 sale_detail.setItemQuantity(product.getItemQuantity());
+                sale_detail.setQuantityS(product.getItemQuantityOut());
                 sale_detail.setUnitPriceS(product.getItemPriceNumbers());
                 sale_detail.setVatS(product.getItemVAT());
                 sales.add(sale_detail);
             }
+            TblProducts product_db = SQLite.select().
+                    from(TblProducts.class).
+                    where(TblProducts_Table.ItemID.eq("11111")).querySingle();
+            TblSalesDetail sale_detail = new TblSalesDetail();
+            sale_detail.saleHead = sale;
+            sale_detail.product = product_db;
+            sale_detail.setQuantityS(0);
+            sale_detail.setItemQuantity(0);
+            sale_detail.setUnitPriceS("0");
+            sale_detail.setVatS(0.0);
+            sale_detail.setVatP3(CustomNewSaleAdapter.getTotalTax());
+            sale_detail.setSalesTypeAgencyID("VAT");
+            sale_detail.save();
             FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                     FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblSalesDetail.class)).addAll(sales).build());
 

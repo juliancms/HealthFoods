@@ -3,13 +3,9 @@ package com.juliancms.healthfoods.model;
 import com.juliancms.healthfoods.data.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.ForeignKey;
-import com.raizlabs.android.dbflow.annotation.OneToMany;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
-import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.BaseModel;
-
-import java.util.List;
 
 /**
  * Created by marines on 12/29/17.
@@ -48,7 +44,7 @@ public class TblSalesHead extends BaseModel {
     String CN;
 
     @Column
-    String NoDistrib;
+    Integer NoDistrib;
 
     @Column
     String SalesInvoiceNumberP3;
@@ -72,20 +68,8 @@ public class TblSalesHead extends BaseModel {
     @ForeignKey(saveForeignKeyModel = false)
     public TblCustomers customer;
 
-    List<TblSalesDetail> products;
     @Column
     Double Total;
-
-    @OneToMany(methods = OneToMany.Method.ALL, variableName = "products")
-    public List<TblSalesDetail> oneToManyTblSalesDetail() {
-        if (products == null) {
-            products = SQLite.select()
-                    .from(TblSalesDetail.class)
-                    .where(TblSalesDetail_Table.IdSalesHead.eq(IdSalesHead))
-                    .queryList();
-        }
-        return products;
-    }
 
     public long getIdSalesHead() {
         return IdSalesHead;
@@ -124,6 +108,13 @@ public class TblSalesHead extends BaseModel {
     }
     public void setIdSalesManKey(int IdSalesManKey) {
         this.IdSalesManKey = IdSalesManKey;
+    }
+
+    public Integer getNoDistrib() {
+        return NoDistrib;
+    }
+    public void setNoDistrib(int NoDistrib) {
+        this.NoDistrib = NoDistrib;
     }
 
     public String getCustomerName() { return CustomerName; }

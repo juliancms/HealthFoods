@@ -29,16 +29,22 @@ public class TblSalesDetail extends BaseModel {
     int ItemQuantity;
 
     @Column
+    int QuantityS;
+
+    @Column
     String UnitPriceS;
 
     @Column
     Double VatS;
 
-//    @Column
-//    String DiscountS;
-//
-//    @Column
-//    String VatP3;
+    @Column(defaultValue = "0")
+    Integer DiscountS;
+
+    @Column
+    Double VatP3;
+
+    @Column
+    String SalesTypeAgencyID;
 
     public long getIdSalesDetail() {
         return IdSalesDetail;
@@ -51,34 +57,24 @@ public class TblSalesDetail extends BaseModel {
     public Integer getItemQuantity() { return ItemQuantity; }
     public void setItemQuantity(Integer ItemQuantity){ this.ItemQuantity = ItemQuantity; }
 
+    public Integer getQuantityS() { return QuantityS; }
+    public void setQuantityS(Integer QuantityS){ this.QuantityS = QuantityS; }
+
     public String getUnitPriceS() { return UnitPriceS; }
     public void setUnitPriceS(String UnitPriceS){ this.UnitPriceS = UnitPriceS; }
 
     public Double getVatS() { return VatS; }
     public void setVatS(Double VatS){ this.VatS = VatS; }
 
-    public Integer getProductQuantityOut() {
-        Integer number = 1;
-        String n;
-        String Number = product.getSalesUMNoStockingUnits();
-        if (Number != null && !Number.isEmpty() && Number != "0") {
-            n = product.getSalesUMNoStockingUnits();
-        } else {
-            n = "0";
-        }
-
-        if(n == "0" || n.isEmpty() || n == null){
-            number = ItemQuantity * 1;
-        } else {
-            number = ItemQuantity * Integer.parseInt(n);
-        }
-        if(number == 0) number = 1;
-        return number;
-    }
+    public Double getVatP3() { return VatP3; }
+    public void setVatP3(Double VatP3){ this.VatP3 = VatP3; }
 
     public Double getPriceTotal() {
         Double total_double = Double.parseDouble(UnitPriceS);
-        total_double = total_double * getProductQuantityOut();
+        total_double = total_double * QuantityS;
         return total_double;
     }
+
+    public String getSalesTypeAgencyID() { return SalesTypeAgencyID; }
+    public void setSalesTypeAgencyID(String SalesTypeAgencyID){ this.SalesTypeAgencyID = SalesTypeAgencyID; }
 }
