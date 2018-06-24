@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.juliancms.healthfoods.R;
 import com.juliancms.healthfoods.model.TblSalesDetail;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -106,6 +108,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         for (int i = 0; i < getCount(); i++) {
             total = total + products.get(i).getPriceTotal();
         }
+        total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.sub_total);
         total_total.setText("SUBTOTAL: $" + total.toString());
         return total;
@@ -115,6 +118,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         for (int i = 0; i < getCount(); i++) {
             total = total + products.get(i).getVatS();
         }
+        total = round(total, 2);
         TextView total_vat = (TextView) activity.findViewById(R.id.total_tax);
         total_vat.setText("TAX: $" + total.toString());
         return total;
@@ -122,6 +126,14 @@ public class CustomInvoiceAdapter extends BaseAdapter {
 
     public static Double getTotal(){
         return total;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

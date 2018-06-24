@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="openInvoice"
-        android:text="TextView" />
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/saleCustomer"
@@ -29,36 +30,38 @@
         android:id="@+id/saleType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:onClick="openInvoice"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/saleDate"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="0dp"
-        android:layout_marginRight="8dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/saleDate"
+        app:layout_constraintTop_toBottomOf="@+id/saleID"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/saleDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:onClick="openInvoice"
         android:text="TextView"
-        app:layout_constraintEnd_toStartOf="@+id/saleTotal"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="0dp"
-        android:layout_marginRight="8dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/saleID"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/saleTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:onClick="openInvoice"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="0dp"
-        android:layout_marginRight="8dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/saleType"
+        app:layout_constraintTop_toBottomOf="@+id/saleID"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>

@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.juliancms.healthfoods.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -79,12 +81,20 @@ public class CustomNewSaleAdapter extends BaseAdapter {
             viewHolder.remove = (ImageView) view.findViewById(R.id.remove_btn);
             viewHolder.remove.setTag(position);
             final View finalView = view;
+            final View finalView1 = view;
             viewHolder.remove.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
                         public void onClick(View arg0) {
                             products.remove(position);
                             notifyDataSetChanged();
+                            Double subtotal = setSubTotal(finalView1);
+                            Double totalTax = setTotalTax(finalView1);
+                            Double total = subtotal + totalTax;
+                            TextView total_total = (TextView) activity.findViewById(R.id.total_total);
+                            total_total.setText("TOTAL: $" + total.toString());
+                            total = total;
+                            total_tax = totalTax;
                         }
             });
 
@@ -92,7 +102,6 @@ public class CustomNewSaleAdapter extends BaseAdapter {
         }
         else {
             view = convertView;
-//            ((ViewHolder) view.getTag()).price.setTag(products.get(position));
         }
         Double subtotal = setSubTotal(view);
         Double totalTax = setTotalTax(view);
@@ -115,6 +124,7 @@ public class CustomNewSaleAdapter extends BaseAdapter {
         for (int i = 0; i < getCount(); i++) {
             total = total + products.get(i).getItemTotal();
         }
+        total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.sub_total);
         total_total.setText("SUBTOTAL: $" + total.toString());
         return total;
@@ -124,6 +134,7 @@ public class CustomNewSaleAdapter extends BaseAdapter {
         for (int i = 0; i < getCount(); i++) {
             total = total + products.get(i).getItemVAT();
         }
+        total = round(total, 2);
         TextView total_vat = (TextView) activity.findViewById(R.id.total_tax);
         total_vat.setText("TAX: $" + total.toString());
         return total;
@@ -134,6 +145,14 @@ public class CustomNewSaleAdapter extends BaseAdapter {
     }
     public static Double getTotalTax(){
         return total_tax;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }

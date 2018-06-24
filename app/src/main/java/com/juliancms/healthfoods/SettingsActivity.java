@@ -13,23 +13,16 @@ import com.aditya.filebrowser.FileChooser;
 import com.juliancms.healthfoods.data.AppDatabase;
 import com.juliancms.healthfoods.model.TblCustomers;
 import com.juliancms.healthfoods.model.TblProducts;
-import com.juliancms.healthfoods.model.TblProfile;
-import com.juliancms.healthfoods.model.TblSalesDetail;
 import com.juliancms.healthfoods.model.TblSalesHead;
 import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.raizlabs.android.dbflow.structure.database.transaction.FastStoreModelTransaction;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import lib.folderpicker.FolderPicker;
 
 public class SettingsActivity extends AppCompatActivity {
     Button EditTblProducts;
@@ -60,9 +53,6 @@ public class SettingsActivity extends AppCompatActivity {
         EditTblCustomers = (Button)findViewById(R.id.edit_tblcustomers);
         _tvEditTblCustomers = (TextView) findViewById(R.id.file_tblcustomers);
         _tvEditTblCustomers.setText("Total customers added: " + TblCustomersList.size());
-        EditTblInvoices = (Button)findViewById(R.id.edit_tblinvoices);
-        _tvEditTblInvoices = (TextView) findViewById(R.id.file_tblinvoices);
-        _tvEditTblInvoices.setText("Total invoices created: " + TblInvoicesList.size());
         EditTblProducts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,79 +79,6 @@ public class SettingsActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 proImportCSV(new File(data.getData().getPath()));
             }
-        } else if (requestCode == FOLDER_PICKER_CODE && resultCode == RESULT_OK) {
-            String folderLocation = data.getExtras().getString("data");
-            handleDirectoryChoice(folderLocation);
-        }
-    }
-
-    private void handleDirectoryChoice(String from) {
-        try {
-            CSVWriter writer = new CSVWriter(new FileWriter(from + "/export.csv"));
-            //Create record
-            TblProfile Profile = SQLite.select().
-                    from(TblProfile.class).querySingle();
-            List<TblSalesDetail> SalesList = SQLite.select().
-                    from(TblSalesDetail.class).queryList();
-            for (TblSalesDetail sales: SalesList) {
-                List<String> sale = new ArrayList<String>();
-                sale.add(sales.saleHead.customer.getCustomerID());
-                sale.add(Profile.getPrefixSalesMan() + sales.saleHead.getIdSalesHead());
-                sale.add("");
-                sale.add("FALSE");
-                sale.add(sales.saleHead.getDateS());
-                sale.add(sales.saleHead.customer.getCustomerName());
-                sale.add(sales.saleHead.getDateDue());
-                Double DiscountAmount = sales.getQuantityS() * Double.parseDouble(sales.getUnitPriceS()) * sales.getVatS();
-                sale.add(DiscountAmount.toString());
-                sale.add(sales.saleHead.customer.getDueDays());//Por confirmar Displayed Terms
-                sale.add(Profile.getPrefixSalesMan());
-                sale.add("10301-HO");
-                sale.add("VAT");
-                sale.add("");
-                sale.add(sales.saleHead.getNoDistrib().toString());
-                sale.add(sales.getQuantityS().toString());
-                if(sales.product.getItemID().equals("11111")){
-                    sale.add("");
-                } else {
-                    sale.add(sales.product.getItemID());
-                }
-                sale.add(sales.product.getItemDescription());
-                sale.add(sales.product.getGLSalesAccount());
-                Double VatPorc = 0.0;
-                if(sales.product.getItemTaxType().equals("0")){
-                    VatPorc = 0.125;
-                }
-                Double UnitPrice = Double.parseDouble(sales.getUnitPriceS()) / (1 + VatPorc);
-                sale.add(UnitPrice.toString());
-                sale.add(sales.product.getItemTaxType());
-                Double Amount = 0.0;
-                if(sales.product.getItemTaxType().equals("0")){
-                    Amount = sales.getVatP3();
-                } else {
-                    Amount = sales.getQuantityS() * Double.parseDouble(sales.getUnitPriceS());
-                }
-                if(Integer.parseInt(sales.saleHead.getType()) < 3){
-                    sale.add("-" + Amount.toString());
-                } else {
-                    sale.add(Amount.toString());
-                }
-                sale.add(sales.product.getGlInventoryAccount());
-                sale.add(sales.product.getGLCOGSSalaryAcct());
-                sale.add("1");
-                sale.add(sales.getSalesTypeAgencyID());
-                sale.add("");
-                sale.add("");
-                String[] record = new String[sale.size()];
-                record = sale.toArray(record);
-                writer.writeNext(record);
-            }
-            //close the writer
-            writer.close();
-            Toast.makeText(this, "The invoices has been successfully exported", Toast.LENGTH_LONG).show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error exporting the file", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -226,10 +143,5 @@ public class SettingsActivity extends AppCompatActivity {
             e.printStackTrace();
             Toast.makeText(this, "The specified file was not found", Toast.LENGTH_SHORT).show();
         }
-    }
-    /** Called when the user taps the Export Invoices button */
-    public void exportInvoices(View view) {
-        Intent intent = new Intent(this, FolderPicker.class);
-        startActivityForResult(intent, FOLDER_PICKER_CODE);
     }
 }

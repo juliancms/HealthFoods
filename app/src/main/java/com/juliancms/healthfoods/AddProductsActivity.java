@@ -25,15 +25,7 @@ public class AddProductsActivity extends AppCompatActivity {
     ArrayList<TblProducts> TblProductsList = (ArrayList<TblProducts>) SQLite.select().
             from(TblProducts.class).
             where(TblProducts_Table.ItemID.notEq("11111")).queryList();
-    ArrayList<TblProducts> ProductsAdded = new ArrayList<>();
-    ArrayList<String> productDescription=new ArrayList<String>();
-    ArrayList<String> productPrice=new ArrayList<String>();
-    ArrayList<String> productID=new ArrayList<String>();
-    ArrayList<String> productQuantity=new ArrayList<String>();
-    ArrayList<String> productTotal=new ArrayList<String>();
     String PricingLevel;
-
-    public static final Integer REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +34,7 @@ public class AddProductsActivity extends AppCompatActivity {
         Intent i = getIntent();
         PricingLevel = i.getExtras().getString("PricingLevel");
         sv= (SearchView) findViewById(R.id.sv);
-        populateProductsList(TblProductsList, PricingLevel);
+//        populateProductsList(TblProductsList, PricingLevel);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -56,13 +48,13 @@ public class AddProductsActivity extends AppCompatActivity {
             }
         });
     }
-    private void populateProductsList(ArrayList products, String PricingLevel) {
-        // Create the adapter to convert the array to views
-        CustomProductsAdapter adapter = new CustomProductsAdapter(this, products, AddProductsActivity.this, PricingLevel);
-        // Attach the adapter to a ListView
-        ListView listView = (ListView) findViewById(R.id.lv);
-        listView.setAdapter(adapter);
-    }
+//    private void populateProductsList(ArrayList products, String PricingLevel) {
+//        // Create the adapter to convert the array to views
+//        CustomProductsAdapter adapter = new CustomProductsAdapter(this, products, AddProductsActivity.this, PricingLevel);
+//        // Attach the adapter to a ListView
+//        ListView listView = (ListView) findViewById(R.id.lv);
+//        listView.setAdapter(adapter);
+//    }
     private void getProducts(String searchTerm)
     {
         ArrayList<TblProducts> ProductsArray = (ArrayList<TblProducts>) SQLite.select().

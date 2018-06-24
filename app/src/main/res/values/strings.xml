@@ -1,21 +1,31 @@
 <resources>
     <string name="app_name">Health Foods</string>
     <string name="settings">SETTINGS</string>
-    <string name="profile">PROFILE</string>
+    <string name="profile">Profile</string>
+    <string name="sales">Sales</string>
+    <string name="list_sales">List of Sales</string>
     <string name="id_salesman">ID Salesman</string>
     <string name="prefix_salesman">Prefix Salesman</string>
+    <string name="name_salesman">Name Salesman</string>
     <string name="id_vehicle">ID Vehicle</string>
     <string name="edit_id_salesman">Enter an ID for Salesman (numeric)</string>
     <string name="edit_id_vehicle">Enter an ID for vehicle</string>
     <string name="save">SAVE</string>
+    <string name="nav_import">Import Customers &amp; Products</string>
+    <string name="nav_export">Export Sales</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
     <string name="import_customers">IMPORT CUSTOMERS</string>
     <string name="import_products">IMPORT PRODUCTS</string>
     <string name="export_invoices">EXPORT INVOICES</string>
     <string name="edit">EDIT</string>
+    <string name="welcome_title">Welcome!</string>
+    <string name="welcome_text">Before adding sales you must import the customers and products, and configure the profile of the seller.</string>
     <string name="update">UPDATE</string>
-    <string name="customer">CUSTOMER</string>
-    <string name="new_sale_cash">NEW CASH SALE</string>
-    <string name="new_sale_credit">NEW CREDIT SALE</string>
+    <string name="customer">CUSTOMER: </string>
+    <string name="new_sale_cash">New Cash Sale</string>
+    <string name="new_sale_credit">New Credit Sale</string>
+    <string name="new_sale_return">New Return Sale</string>
     <string name="date">DATE</string>
     <string name="invoices">INVOICES</string>
     <string name="product">PRODUCT</string>
@@ -39,6 +49,9 @@
     <string name="none">none</string>
     <string name="btn_choose">Choose in Dialog</string>
     <string name="btn_switch">Switch to Dialog Sample</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="textview">TextView</string>
     <string-array name="um_arrays">
         <item>BAG25LBS</item>
         <item>BALE48</item>

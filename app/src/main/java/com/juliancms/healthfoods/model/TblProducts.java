@@ -328,7 +328,14 @@ public class TblProducts extends BaseModel {
     public String getSalesPrice10Rounding() { return SalesPrice10Rounding; }
     public String getSalesPrice10RoundingNumber() { return SalesPrice10RoundingNumber; }
     public String getQtyDiscountId() { return QtyDiscountId; }
-    public String getItemTaxType() { return ItemTaxType; }
+    public String getItemTaxType() {
+        Integer n = Integer.parseInt(ItemTaxType);
+        if(ItemID != "11111") {
+            n = Integer.parseInt(ItemTaxType) + 1;
+        }
+        return n.toString();
+
+    }
     public String getLastUnitCost() { return LastUnitCost; }
     public String getCostingMethod() { return CostingMethod; }
     public String getGLSalesAccount() { return GLSalesAccount; }

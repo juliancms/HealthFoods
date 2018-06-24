@@ -10,6 +10,12 @@ import android.widget.TextView;
 import com.juliancms.healthfoods.R;
 import com.juliancms.healthfoods.model.TblSalesHead;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -64,11 +70,22 @@ public class CustomInvoicesAdapter extends BaseAdapter {
         // Populate the data into the template view using the data object
         tvID.setText(String.valueOf(sales.get(position).getIdSalesHead()));
         tvCustomer.setText(String.valueOf(sales.get(position).getCustomerName()));
-        tvDate.setText(sales.get(position).getDateS());
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
+        DateTime dateTime = DateTime.parse(sales.get(position).getDateS(), dtf);
+        DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");
+        tvDate.setText(dtf2.print(dateTime));
         tvType.setText(sales.get(position).getType());
-        tvTotal.setText("$ " + String.valueOf(sales.get(position).getTotal()));
+        tvTotal.setText("$ " + String.valueOf(round(sales.get(position).getTotal(), 2)));
 
         return convertView;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
 

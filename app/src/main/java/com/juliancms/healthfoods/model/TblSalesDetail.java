@@ -24,6 +24,8 @@ public class TblSalesDetail extends BaseModel {
     @ForeignKey(saveForeignKeyModel = false)
     public TblSalesHead saleHead;
 
+    @Column
+    Long DateS;
 
     @Column
     int ItemQuantity;
@@ -45,6 +47,11 @@ public class TblSalesDetail extends BaseModel {
 
     @Column
     String SalesTypeAgencyID;
+
+    public Long getDateS() { return DateS; }
+    public void setDateS(Long DateS){
+        this.DateS = DateS;
+    }
 
     public long getIdSalesDetail() {
         return IdSalesDetail;

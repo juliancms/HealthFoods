@@ -110,11 +110,8 @@ public class CustomProductsAdapter extends BaseAdapter {
             default: tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice1());
                 break;
         }
-        tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice1());
         tvID.setText(products.get(position).getId().toString());
         tvTax.setText(products.get(position).getItemTaxType());
-//        tvUM = (products.get(position).getSalesUM().toString());
-
         return convertView;
     }
 }

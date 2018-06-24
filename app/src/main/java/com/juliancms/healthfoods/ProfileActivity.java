@@ -2,6 +2,7 @@ package com.juliancms.healthfoods;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,8 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        EditText name = (EditText) findViewById(R.id.edit_prefixsalesman);
+        name.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         List<TblProfile> TblProfileList = SQLite.select().
                 from(TblProfile.class).queryList();
         for (TblProfile tblprofile: TblProfileList) {
@@ -30,6 +33,8 @@ public class ProfileActivity extends AppCompatActivity {
             editText.setText(tblprofile.getIdVehicles().toString());
             editText = (EditText) findViewById(R.id.edit_prefixsalesman);
             editText.setText(tblprofile.getPrefixSalesMan().toString());
+            editText = (EditText) findViewById(R.id.edit_namesalesman);
+            editText.setText(tblprofile.getNameSalesMan().toString());
         }
         SaveData = (Button)findViewById(R.id.save);
         SaveData.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +54,9 @@ public class ProfileActivity extends AppCompatActivity {
                 String prefixsalesman = editText.getText().toString();
                 profile.setIdVehicles(id_vehicle);
                 profile.setPrefixSalesMan(prefixsalesman);
+                editText = (EditText) findViewById(R.id.edit_namesalesman);
+                String namesalesman = editText.getText().toString();
+                profile.setNameSalesMan(namesalesman);
                 if(profile.save()){
                     Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
                 }

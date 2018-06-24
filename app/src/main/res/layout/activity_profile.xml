@@ -52,12 +52,34 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
-        android:id="@+id/id_vehicule"
+        android:id="@+id/name_salesman"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="@string/id_vehicle"
+        android:text="@string/name_salesman"
         app:layout_constraintTop_toBottomOf="@+id/edit_prefixsalesman"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="154dp" />
+
+    <EditText
+        android:id="@+id/edit_namesalesman"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:selectAllOnFocus="false"
+        android:singleLine="false"
+        app:layout_constraintTop_toBottomOf="@+id/name_salesman"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/id_vehicule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/id_vehicle"
+        app:layout_constraintTop_toBottomOf="@+id/edit_namesalesman"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="174dp" />
 

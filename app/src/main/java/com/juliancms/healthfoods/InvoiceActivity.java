@@ -13,6 +13,10 @@ import com.juliancms.healthfoods.model.TblSalesHead_Table;
 import com.juliancms.healthfoods.utils.CustomInvoiceAdapter;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 
 public class InvoiceActivity extends AppCompatActivity {
@@ -28,7 +32,8 @@ public class InvoiceActivity extends AppCompatActivity {
                 where(TblSalesHead_Table.IdSalesHead.eq(Long.valueOf(saleID))).querySingle();
         ArrayList<TblSalesDetail> products = (ArrayList<TblSalesDetail>)  SQLite.select().
                 from(TblSalesDetail.class).
-                where(TblSalesDetail_Table.saleHead_IdSalesHead.eq(Long.valueOf(saleID))).queryList();
+                where(TblSalesDetail_Table.saleHead_IdSalesHead.eq(Long.valueOf(saleID))).
+                and(TblSalesDetail_Table.SalesTypeAgencyID.isNull()).queryList();
         CustomInvoiceAdapter adapter = new CustomInvoiceAdapter(this, products, InvoiceActivity.this);
         TextView tvType = (TextView) findViewById(R.id.saleType);
         TextView tvSaleID = (TextView) findViewById(R.id.saleID);
@@ -39,7 +44,11 @@ public class InvoiceActivity extends AppCompatActivity {
             tvType.setText(sale.getType() + " DUE DAYS: " + sale.customer.getDueDays());
         }
         tvSaleID.setText("ID: " + String.valueOf(sale.getIdSalesHead()));
-        tvDate.setText("DATE:" + sale.getDateS());
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
+        DateTime dateTime = DateTime.parse(sale.getDateS(), dtf);
+        DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");
+        String textdate = dtf2.print(dateTime);
+        tvDate.setText("DATE: " + textdate);
         tvCustomerName.setText(sale.customer.getCustomerName());
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.lv);

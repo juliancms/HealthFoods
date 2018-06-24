@@ -1,13 +1,16 @@
 package com.juliancms.healthfoods;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,22 +35,35 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SaleCustomerActivity extends AppCompatActivity {
-    TextView _tvEditDate;
     ArrayList<ProductsAdded> products=new ArrayList<>();
     String customerID;
     String ItemPriceLevel;
     TblCustomers Customer = null;
     Integer sale_type;
+    CustomNewSaleAdapter adapter2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale_customer);
+        TblProducts Product = SQLite.select().
+                from(TblProducts.class).querySingle();
+        TblCustomers Customer_query = SQLite.select().
+                from(TblCustomers.class).querySingle();
+        TblProfile Profile = SQLite.select().
+                from(TblProfile.class).querySingle();
+        if(Product == null || Customer_query == null || Profile == null){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            return;
+        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Intent i = getIntent();
         sale_type = i.getIntExtra("sale_type", 0);
@@ -67,10 +83,18 @@ public class SaleCustomerActivity extends AppCompatActivity {
         }
         ArrayAdapter<TblCustomers> adapter = new ArrayAdapter<TblCustomers>(this,
                 android.R.layout.simple_dropdown_item_1line, Customers);
-        AutoCompleteTextView textViewC = (AutoCompleteTextView)
+        final AutoCompleteTextView textViewC = (AutoCompleteTextView)
                 findViewById(R.id.customer);
         textViewC.setThreshold(1);
         textViewC.setAdapter(adapter);
+        textViewC.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                InputMethodManager mgr = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                mgr.hideSoftInputFromWindow(textViewC.getWindowToken(), 0);
+            }
+
+        });
     }
 
     @Override
@@ -101,7 +125,11 @@ public class SaleCustomerActivity extends AppCompatActivity {
             p.setItemTotal();
             p.setItemPriceLevel(ItemPriceLevel);
             products.add(p);
-            CustomNewSaleAdapter adapter2 = new CustomNewSaleAdapter(this, products, SaleCustomerActivity.this);
+            if(products.size() > 0){
+                Button btn_save = (Button) findViewById(R.id.button2);
+                btn_save.setEnabled(true);
+            }
+            adapter2 = new CustomNewSaleAdapter(this, products, SaleCustomerActivity.this);
             // Attach the adapter to a ListView
             ListView listView = (ListView) findViewById(R.id.lv);
             listView.setAdapter(adapter2);
@@ -176,9 +204,10 @@ public class SaleCustomerActivity extends AppCompatActivity {
         DateTime dt = new DateTime(date);
         DateTime dtdue = dt.plusDays(days);
         DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
-        String dateString = dtf.print(dt);
+        DateTime dtS = new DateTime();
+        Date dateS = dtS.toDate();
         String dateDue = dtf.print(dtdue);
-        sale.setDateS(dateString);
+        sale.setDateS(dtf.print(dt));
         sale.setDateDue(dateDue);
         DateTimeFormatter dtf2 = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm");
         String dateString2 = dtf2.print(dt);
@@ -195,6 +224,10 @@ public class SaleCustomerActivity extends AppCompatActivity {
         }
 //        sale.setPriceLevel(Integer.parseInt(ItemPriceLevel));
         if(sale.save()){
+            if(products.size() < 1){
+                Toast.makeText(this, "You must add products before saving.", Toast.LENGTH_SHORT).show();
+                return;
+            }
             List <TblSalesDetail> sales = new ArrayList();
             for (ProductsAdded product: products){
                 TblSalesDetail sale_detail = new TblSalesDetail();
@@ -203,6 +236,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
                         from(TblProducts.class).
                         where(TblProducts_Table.id.eq(Long.valueOf(product.getItemID()))).querySingle();
                 sale_detail.product = product_db;
+                sale_detail.setDateS(dtS.getMillis());
                 sale_detail.setItemQuantity(product.getItemQuantity());
                 sale_detail.setQuantityS(product.getItemQuantityOut());
                 sale_detail.setUnitPriceS(product.getItemPriceNumbers());
@@ -216,6 +250,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
             sale_detail.saleHead = sale;
             sale_detail.product = product_db;
             sale_detail.setQuantityS(0);
+            sale_detail.setDateS(dtS.getMillis());
             sale_detail.setItemQuantity(0);
             sale_detail.setUnitPriceS("0");
             sale_detail.setVatS(0.0);
@@ -225,7 +260,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
             FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                     FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblSalesDetail.class)).addAll(sales).build());
 
-            Intent intent = new Intent(this, InvoicesActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
 
