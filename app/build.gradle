@@ -25,22 +25,20 @@ android {
 
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-
     compile 'com.opencsv:opencsv:4.1'
     compile 'com.adityak:browsemyfiles:1.7'
     compile 'com.github.travijuu:NumberPicker:v1.0.7'
     compile 'joda-time:joda-time:2.9.9'
     compile 'lib.kashif:folderpicker:2.2'
-
+    implementation files('libs/RT_Android_Bluetooth_SDK_20150204.jar')
 }

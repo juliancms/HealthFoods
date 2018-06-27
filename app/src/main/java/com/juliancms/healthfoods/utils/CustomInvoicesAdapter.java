@@ -16,6 +16,7 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -75,17 +76,17 @@ public class CustomInvoicesAdapter extends BaseAdapter {
         DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");
         tvDate.setText(dtf2.print(dateTime));
         tvType.setText(sales.get(position).getType());
-        tvTotal.setText("$ " + String.valueOf(round(sales.get(position).getTotal(), 2)));
-
+        tvTotal.setText("$ " + round(sales.get(position).getTotal(), 2));
         return convertView;
     }
 
-    public static double round(double value, int places) {
+    public static String round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+        DecimalFormat formatter = new DecimalFormat("#,###,###.00");
+        return formatter.format(bd.doubleValue());
     }
 }
 

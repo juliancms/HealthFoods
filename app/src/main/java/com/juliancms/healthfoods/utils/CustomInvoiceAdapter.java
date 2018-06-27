@@ -6,14 +6,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.juliancms.healthfoods.R;
 import com.juliancms.healthfoods.model.TblSalesDetail;
+import com.juliancms.healthfoods.model.TblSalesHead;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -24,15 +32,24 @@ public class CustomInvoiceAdapter extends BaseAdapter {
 
     Context c;
     ArrayList<TblSalesDetail> products;
+    TblSalesHead sale;
     LayoutInflater inflater;
     Activity activity;
     public static Double total;
+    public static String subtotal_s;
+    public static String totaltax_s;
+    public static String total_s;
+    DecimalFormat formatter = new DecimalFormat("#,###,###.00");
 
-    public CustomInvoiceAdapter(Context c, ArrayList<TblSalesDetail> products, Activity activity) {
+    public CustomInvoiceAdapter(Context c, ArrayList<TblSalesDetail> products, TblSalesHead sale, Activity activity) {
         this.c = c;
         this.products = products;
+        this.sale = sale;
         this.activity = activity;
         this.total = null;
+        this.subtotal_s = null;
+        this.totaltax_s = null;
+        this.total_s = null;
     }
 
     static class ViewHolder {
@@ -87,8 +104,10 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         Double subtotal = setSubTotal(view);
         Double totalTax = setTotalTax(view);
         Double total = subtotal + totalTax;
+        total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
-        total_total.setText("TOTAL: $" + total.toString());
+        this.total_s = "TOTAL: $" + formatter.format(total);
+        total_total.setText(total_s);
         this.total = total;
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.quantity.setText(products.get(position).getItemQuantity().toString());
@@ -99,7 +118,9 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         }
         holder.product.setText(products.get(position).product.getItemDescription());
         holder.price.setText(products.get(position).getUnitPriceS().toString());
-        holder.total.setText(products.get(position).getPriceTotal().toString());
+        holder.total.setText(formatter.format(products.get(position).getPriceTotal()));
+        Button btn_print = (Button)activity.findViewById(R.id.btn_print);
+        btn_print.setOnClickListener(mBtnPrintOnClickListener);
         return view;
     }
 
@@ -110,7 +131,8 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         }
         total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.sub_total);
-        total_total.setText("SUBTOTAL: $" + total.toString());
+        this.subtotal_s = "SUBTOTAL: $" + formatter.format(total);
+        total_total.setText(subtotal_s);
         return total;
     }
     public Double setTotalTax(View view){
@@ -120,7 +142,8 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         }
         total = round(total, 2);
         TextView total_vat = (TextView) activity.findViewById(R.id.total_tax);
-        total_vat.setText("TAX: $" + total.toString());
+        this.totaltax_s = "TAX: $" + formatter.format(total);
+        total_vat.setText(totaltax_s);
         return total;
     }
 
@@ -135,5 +158,60 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+
+    View.OnClickListener mBtnPrintOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(BluetoothPrintDriver.IsNoConnection()){
+                return;
+            }
+            BluetoothPrintDriver.Begin();
+            DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
+            DateTime dateTime = DateTime.parse(sale.getDateS(), dtf);
+            DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");
+            String textdate = dtf2.print(dateTime);
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.SetAlignMode((byte) 1);
+            BluetoothPrintDriver.BT_Write("Caribbean Health Foods Ltd");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Maracas Royal, St. Joseph");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Tel: 6456231");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("VAT Reg: 229083");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.SetAlignMode((byte) 0);
+            BluetoothPrintDriver.BT_Write("Invoice No: " + String.valueOf(sale.getIdSalesHead()));
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Date: " + textdate);
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Customer: " + sale.customer.getCustomerName());
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Product Description");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("QTY  *  UNIT PRICE  =  ");
+            BluetoothPrintDriver.LF();
+            for (int i = 0; i < getCount(); i++) {
+                BluetoothPrintDriver.BT_Write(products.get(i).product.getItemDescription());
+                BluetoothPrintDriver.LF();
+                BluetoothPrintDriver.BT_Write(products.get(i).getItemQuantity().toString() + "  *  $" + products.get(i).getUnitPriceS().toString() + "  =  $" + formatter.format(products.get(i).getPriceTotal()));
+                BluetoothPrintDriver.LF();
+                BluetoothPrintDriver.LF();
+            }
+            BluetoothPrintDriver.BT_Write("SUBTOTAL: " + subtotal_s);
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("TAX: " + totaltax_s);
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("TOTAL: " + total_s);
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("CUSTOMER SIGNATURE: __________________");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Thank you 4 shopping with us!");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.LF();
+        }
+    };
 
 }

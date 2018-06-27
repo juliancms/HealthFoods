@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/invoice_activity"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context="com.juliancms.healthfoods.InvoiceActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/invoice_activity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.juliancms.healthfoods.InvoiceActivity">
 
     <TextView
         android:id="@+id/saleType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/saleID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saleType"
-        android:layout_marginRight="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/saleType" />
 
     <TextView
         android:id="@+id/customerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/saleID"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toBottomOf="@+id/saleID" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ly1"
@@ -115,10 +115,10 @@ tools:context="com.juliancms.healthfoods.InvoiceActivity">
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="60dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -129,34 +129,70 @@ tools:context="com.juliancms.healthfoods.InvoiceActivity">
         android:id="@+id/sub_total"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/total_tax" />
+        app:layout_constraintBottom_toTopOf="@+id/total_tax"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/total_tax"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="end"
         android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/total_total" />
+        app:layout_constraintBottom_toTopOf="@+id/total_total"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/total_total"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/printer_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:layout_marginStart="8dp"
+        android:text="Printer Status"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn_print"
+        android:layout_width="60dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/print"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_connect"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/btn_connect"
+        android:layout_width="80dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/connect"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
