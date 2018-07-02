@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
 import com.juliancms.healthfoods.R;
+import com.juliancms.healthfoods.model.TblProfile;
 import com.juliancms.healthfoods.model.TblSalesDetail;
 import com.juliancms.healthfoods.model.TblSalesHead;
+import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -23,6 +25,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by marines on 2/21/18.
@@ -111,7 +114,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         this.total = total;
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.quantity.setText(products.get(position).getItemQuantity().toString());
-        if(Integer.parseInt(products.get(position).product.getSalesUMNoStockingUnits()) > 0){
+        if(Integer.parseInt(products.get(position).product.getSalesUMNoStockingUnits()) > 0 && products.get(position).getQuantityUM() > 1){
             holder.um.setText(products.get(position).product.getSalesUM().toString());
         } else {
             holder.um.setText("UNITS");
@@ -165,52 +168,72 @@ public class CustomInvoiceAdapter extends BaseAdapter {
             if(BluetoothPrintDriver.IsNoConnection()){
                 return;
             }
+            String prefixsale = null;
+            String getVat = null;
+            String getUM = null;
+            List<TblProfile> TblProfileList = SQLite.select().
+                    from(TblProfile.class).queryList();
+            for (TblProfile tblprofile: TblProfileList) {
+                prefixsale = tblprofile.getPrefixSalesMan().toString();
+            }
             BluetoothPrintDriver.Begin();
             DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
             DateTime dateTime = DateTime.parse(sale.getDateS(), dtf);
             DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");
             String textdate = dtf2.print(dateTime);
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.SetAlignMode((byte) 1);
             BluetoothPrintDriver.BT_Write("Caribbean Health Foods Ltd");
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Maracas Royal, St. Joseph");
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Tel: 6456231");
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("VAT Reg: 229083");
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.SetAlignMode((byte) 0);
-            BluetoothPrintDriver.BT_Write("Invoice No: " + String.valueOf(sale.getIdSalesHead()));
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("Invoice No: " + prefixsale + String.valueOf(sale.getIdSalesHead()));
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Date: " + textdate);
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Customer: " + sale.customer.getCustomerName());
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Product Description");
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.BT_Write("QTY  *  UNIT PRICE  =  ");
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("QTY (UM)  *  UNIT PRICE  =  ");
+            BluetoothPrintDriver.BT_Write("\r");
             for (int i = 0; i < getCount(); i++) {
-                BluetoothPrintDriver.BT_Write(products.get(i).product.getItemDescription());
-                BluetoothPrintDriver.LF();
-                BluetoothPrintDriver.BT_Write(products.get(i).getItemQuantity().toString() + "  *  $" + products.get(i).getUnitPriceS().toString() + "  =  $" + formatter.format(products.get(i).getPriceTotal()));
-                BluetoothPrintDriver.LF();
-                BluetoothPrintDriver.LF();
+                if(products.get(i).getVatS() > 0){
+                    getVat = " (V)";
+                } else {
+                    getVat = "";
+                }
+                if(Integer.parseInt(products.get(i).product.getSalesUMNoStockingUnits()) > 0){
+                    getUM = " (" + products.get(i).product.getSalesUM().toString() + ")";
+                } else {
+                    getUM = " (UNITS)";
+                }
+                BluetoothPrintDriver.BT_Write(products.get(i).product.getItemDescription()+ getVat);
+                BluetoothPrintDriver.BT_Write("\r");
+                BluetoothPrintDriver.BT_Write(products.get(i).getItemQuantity().toString() + getUM + "  *  $" + products.get(i).getUnitPriceS().toString() + "  =  $" + formatter.format(products.get(i).getPriceTotal()));
+                BluetoothPrintDriver.BT_Write("\r");
+                BluetoothPrintDriver.BT_Write("\r");
             }
-            BluetoothPrintDriver.BT_Write("SUBTOTAL: " + subtotal_s);
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.BT_Write("TAX: " + totaltax_s);
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.BT_Write("TOTAL: " + total_s);
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.BT_Write("CUSTOMER SIGNATURE: __________________");
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write(subtotal_s);
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write(totaltax_s);
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write(total_s);
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("CUSTOMER SIGNATURE: ___________________________");
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Thank you 4 shopping with us!");
-            BluetoothPrintDriver.LF();
-            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("\r");
         }
     };
 

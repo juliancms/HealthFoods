@@ -6,34 +6,39 @@
 
     <TextView
         android:id="@+id/product"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:textSize="12sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/quantity"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/um"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/price"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/total"
-        android:layout_height="wrap_content"
         android:layout_width="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="12sp" />
 
     <ImageButton
         android:id="@+id/remove_btn"

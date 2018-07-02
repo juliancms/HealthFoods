@@ -2,7 +2,6 @@ package com.juliancms.healthfoods;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -64,7 +63,6 @@ public class SaleCustomerActivity extends AppCompatActivity {
             startActivity(intent);
             return;
         }
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         Intent i = getIntent();
         sale_type = i.getIntExtra("sale_type", 0);
         if (sale_type == 1){
@@ -238,7 +236,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
                 sale_detail.product = product_db;
                 sale_detail.setDateS(dtS.getMillis());
                 sale_detail.setItemQuantity(product.getItemQuantity());
-                sale_detail.setQuantityS(product.getItemQuantityOut());
+                sale_detail.setQuantityUM(product.getItemQuantityUM());
                 sale_detail.setUnitPriceS(product.getItemPriceNumbers());
                 sale_detail.setVatS(product.getItemVAT());
                 sales.add(sale_detail);
@@ -249,7 +247,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
             TblSalesDetail sale_detail = new TblSalesDetail();
             sale_detail.saleHead = sale;
             sale_detail.product = product_db;
-            sale_detail.setQuantityS(0);
+            sale_detail.setQuantityUM(0);
             sale_detail.setDateS(dtS.getMillis());
             sale_detail.setItemQuantity(0);
             sale_detail.setUnitPriceS("0");
@@ -260,7 +258,8 @@ public class SaleCustomerActivity extends AppCompatActivity {
             FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                     FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblSalesDetail.class)).addAll(sales).build());
 
-            Intent intent = new Intent(this, MainActivity.class);
+            Intent intent = new Intent(this, InvoiceActivity.class);
+            intent.putExtra("saleID", String.valueOf(sale.getIdSalesHead()));
             startActivity(intent);
         }
 

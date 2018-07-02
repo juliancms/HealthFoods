@@ -168,7 +168,8 @@
         android:text="Printer Status"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginLeft="8dp" />
 
     <Button
         android:id="@+id/btn_print"
@@ -193,6 +194,7 @@
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>

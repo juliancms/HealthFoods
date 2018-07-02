@@ -60,25 +60,18 @@ public class ProductsAdded implements Parcelable {
     public Integer getItemQuantity() {
         return ItemQuantity;
     }
-    public Integer getItemQuantityOut() {
+    public Integer getItemQuantityUM() {
         Integer number = 0;
-        String n;
+        Integer n;
         TblProducts Number = SQLite.select(TblProducts_Table.SalesUMNoStockingUnits).
                 from(TblProducts.class).
                 where(TblProducts_Table.SalesUM.eq(ItemUM)).querySingle();
         if (Number != null) {
-            n = Number.getSalesUMNoStockingUnits();
+            n = Integer.valueOf(Number.getSalesUMNoStockingUnits());
         } else {
-            n = "0";
+            n = 1;
         }
-
-        if(n == "0"){
-            number = ItemQuantity * 1;
-        } else {
-            number = ItemQuantity * Integer.parseInt(n);
-        }
-        if(number == 0) number = 1;
-        return number;
+        return n;
     }
     public void setItemQuantity(Integer ItemQuantity) {
         this.ItemQuantity= ItemQuantity;
@@ -103,7 +96,8 @@ public class ProductsAdded implements Parcelable {
     }
     public void setItemTotal() {
         Double total_double = Double.parseDouble(getItemPriceNumbers());
-        total_double = total_double * getItemQuantityOut();
+        int total_quantity = ItemQuantity * getItemQuantityUM();
+        total_double = total_double * total_quantity;
         this.ItemTotal = total_double;
     }
 

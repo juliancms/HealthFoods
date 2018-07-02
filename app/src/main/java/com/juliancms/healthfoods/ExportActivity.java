@@ -133,7 +133,8 @@ public class ExportActivity extends AppCompatActivity {
                 sale.add(sales.saleHead.getDateS().toString());
                 sale.add(sales.saleHead.customer.getCustomerName());
                 sale.add(sales.saleHead.getDateDue());
-                Double DiscountAmount = round(sales.getQuantityS() * Double.parseDouble(sales.getUnitPriceS()) * sales.getVatS(), 2);
+                Integer total_quantity = sales.getItemQuantity() * sales.getQuantityUM();
+                Double DiscountAmount = round(total_quantity * Double.parseDouble(sales.getUnitPriceS()) * sales.getVatS(), 2);
                 sale.add(DiscountAmount.toString());
                 sale.add(sales.saleHead.customer.getDueDays() + " days");//Por confirmar Displayed Terms
                 sale.add(Profile.getPrefixSalesMan());
@@ -141,7 +142,7 @@ public class ExportActivity extends AppCompatActivity {
                 sale.add("VAT");
                 sale.add("");
                 sale.add(sales.saleHead.getNoDistrib().toString());
-                sale.add(sales.getQuantityS().toString());
+                sale.add(total_quantity.toString());
                 if(sales.product.getItemID().equals("11111")){
                     sale.add("");
                 } else {
@@ -166,7 +167,7 @@ public class ExportActivity extends AppCompatActivity {
                         Amount = round(Amount, 2);
                     }
                 } else {
-                    BigDecimal AmountBD = BigDecimal.valueOf(sales.getQuantityS()).multiply(BigDecimal.valueOf(UnitPrice));
+                    BigDecimal AmountBD = BigDecimal.valueOf(total_quantity).multiply(BigDecimal.valueOf(UnitPrice));
                     Amount = round(AmountBD.doubleValue(), 2);
 
                 }

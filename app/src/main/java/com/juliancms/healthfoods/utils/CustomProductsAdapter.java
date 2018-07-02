@@ -2,11 +2,13 @@ package com.juliancms.healthfoods.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -27,6 +29,8 @@ public class CustomProductsAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Activity activity;
     String PricingLevel;
+    private int lastFocussedPosition = -1;
+    private Handler handler = new Handler();
 
     public CustomProductsAdapter(Context c, ArrayList<TblProducts> products, Activity activity, String pricingLevel) {
         this.c = c;
@@ -67,6 +71,7 @@ public class CustomProductsAdapter extends BaseAdapter {
         TextView tvID = (TextView) convertView.findViewById(R.id.productID);
         TextView tvTax = (TextView) convertView.findViewById(R.id.productTax);
         Spinner tvUM = (Spinner) convertView.findViewById(R.id.productUM);
+        final EditText Quantity = (EditText) convertView.findViewById(R.id.productQuantity);
         List<String> tvUMList = new ArrayList<String>();
         if(Integer.parseInt(products.get(position).getSalesUMNoStockingUnits()) > 0){
             tvUMList.add(products.get(position).getSalesUM());
@@ -76,6 +81,27 @@ public class CustomProductsAdapter extends BaseAdapter {
                 android.R.layout.simple_spinner_item, tvUMList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tvUM.setAdapter(dataAdapter);
+        Quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    handler.postDelayed(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (lastFocussedPosition == -1 || lastFocussedPosition == position) {
+                                lastFocussedPosition = position;
+                                Quantity.requestFocus();
+                            }
+                        }
+                    }, 200);
+
+                } else {
+                    lastFocussedPosition = -1;
+                }
+            }
+        });
 
 
         // Populate the data into the template view using the data object
@@ -87,27 +113,27 @@ public class CustomProductsAdapter extends BaseAdapter {
             level = Integer.parseInt(PricingLevel);
         }
         switch (level) {
-            case 0: tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice1());
+            case 0: tvPrice.setText("$" + products.get(position).getSalesPrice1());
                 break;
-            case 1:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice2());
+            case 1:  tvPrice.setText("$" + products.get(position).getSalesPrice2());
                 break;
-            case 2:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice3());
+            case 2:  tvPrice.setText("$" + products.get(position).getSalesPrice3());
                 break;
-            case 3:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice4());
+            case 3:  tvPrice.setText("$" + products.get(position).getSalesPrice4());
                 break;
-            case 4:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice5());
+            case 4:  tvPrice.setText("$" + products.get(position).getSalesPrice5());
                 break;
-            case 5:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice6());
+            case 5:  tvPrice.setText("$" + products.get(position).getSalesPrice6());
                 break;
-            case 6:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice7());
+            case 6:  tvPrice.setText("$" + products.get(position).getSalesPrice7());
                 break;
-            case 7:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice8());
+            case 7:  tvPrice.setText("$" + products.get(position).getSalesPrice8());
                 break;
-            case 8:  tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice9());
+            case 8:  tvPrice.setText("$" + products.get(position).getSalesPrice9());
                 break;
-            case 9: tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice10());
+            case 9: tvPrice.setText("$" + products.get(position).getSalesPrice10());
                 break;
-            default: tvPrice.setText("Unit Price: $" + products.get(position).getSalesPrice1());
+            default: tvPrice.setText("$" + products.get(position).getSalesPrice1());
                 break;
         }
         tvID.setText(products.get(position).getId().toString());

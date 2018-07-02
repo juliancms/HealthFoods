@@ -31,7 +31,7 @@ public class TblSalesDetail extends BaseModel {
     int ItemQuantity;
 
     @Column
-    int QuantityS;
+    int QuantityUM;
 
     @Column
     String UnitPriceS;
@@ -64,8 +64,8 @@ public class TblSalesDetail extends BaseModel {
     public Integer getItemQuantity() { return ItemQuantity; }
     public void setItemQuantity(Integer ItemQuantity){ this.ItemQuantity = ItemQuantity; }
 
-    public Integer getQuantityS() { return QuantityS; }
-    public void setQuantityS(Integer QuantityS){ this.QuantityS = QuantityS; }
+    public Integer getQuantityUM() { return QuantityUM; }
+    public void setQuantityUM(Integer QuantityUM){ this.QuantityUM = QuantityUM; }
 
     public String getUnitPriceS() { return UnitPriceS; }
     public void setUnitPriceS(String UnitPriceS){ this.UnitPriceS = UnitPriceS; }
@@ -78,7 +78,8 @@ public class TblSalesDetail extends BaseModel {
 
     public Double getPriceTotal() {
         Double total_double = Double.parseDouble(UnitPriceS);
-        total_double = total_double * QuantityS;
+        int total_quantity = ItemQuantity * QuantityUM;
+        total_double = total_double * total_quantity;
         return total_double;
     }
 
