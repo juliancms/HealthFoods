@@ -169,12 +169,17 @@ public class CustomInvoiceAdapter extends BaseAdapter {
                 return;
             }
             String prefixsale = null;
+            String namesale = null;
             String getVat = null;
             String getUM = null;
             List<TblProfile> TblProfileList = SQLite.select().
                     from(TblProfile.class).queryList();
             for (TblProfile tblprofile: TblProfileList) {
                 prefixsale = tblprofile.getPrefixSalesMan().toString();
+                namesale = tblprofile.getNameSalesMan().toString();
+            }
+            if (sale.getTypeInt() == 3){
+                prefixsale = "CR" + prefixsale;
             }
             BluetoothPrintDriver.Begin();
             DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
@@ -192,7 +197,11 @@ public class CustomInvoiceAdapter extends BaseAdapter {
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("VAT Reg: 229083");
             BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
             BluetoothPrintDriver.SetAlignMode((byte) 0);
+            BluetoothPrintDriver.BT_Write("Sale Type: " + sale.getType());
+            BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Invoice No: " + prefixsale + String.valueOf(sale.getIdSalesHead()));
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Date: " + textdate);
@@ -209,7 +218,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
                 } else {
                     getVat = "";
                 }
-                if(Integer.parseInt(products.get(i).product.getSalesUMNoStockingUnits()) > 0){
+                if(Integer.parseInt(products.get(i).product.getSalesUMNoStockingUnits()) > 0 && products.get(i).getQuantityUM() > 1){
                     getUM = " (" + products.get(i).product.getSalesUM().toString() + ")";
                 } else {
                     getUM = " (UNITS)";
@@ -218,7 +227,8 @@ public class CustomInvoiceAdapter extends BaseAdapter {
                 BluetoothPrintDriver.BT_Write("\r");
                 BluetoothPrintDriver.BT_Write(products.get(i).getItemQuantity().toString() + getUM + "  *  $" + products.get(i).getUnitPriceS().toString() + "  =  $" + formatter.format(products.get(i).getPriceTotal()));
                 BluetoothPrintDriver.BT_Write("\r");
-                BluetoothPrintDriver.BT_Write("\r");
+                BluetoothPrintDriver.LF();
+                BluetoothPrintDriver.CR();
             }
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write(subtotal_s);
@@ -227,13 +237,22 @@ public class CustomInvoiceAdapter extends BaseAdapter {
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write(total_s);
             BluetoothPrintDriver.BT_Write("\r");
-            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
             BluetoothPrintDriver.BT_Write("CUSTOMER SIGNATURE: ___________________________");
+            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.BT_Write("Vendor Name:" + namesale);
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Thank you 4 shopping with us!");
             BluetoothPrintDriver.BT_Write("\r");
-            BluetoothPrintDriver.BT_Write("\r");
-            BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
         }
     };
 

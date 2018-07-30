@@ -3,6 +3,7 @@ package com.juliancms.healthfoods;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -14,12 +15,14 @@ import android.widget.TextView;
 import com.juliancms.healthfoods.model.TblProducts;
 import com.juliancms.healthfoods.model.TblProducts_Table;
 import com.juliancms.healthfoods.utils.CustomProductsAdapter;
+import com.juliancms.healthfoods.utils.ProductsAdded;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.ArrayList;
 
 public class AddProductsActivity extends AppCompatActivity {
     ListView lv;
+    ArrayList<ProductsAdded> products=new ArrayList<>();
     SearchView sv;
     ArrayList<TblProducts> TblProductsList = (ArrayList<TblProducts>) SQLite.select().
             from(TblProducts.class).
@@ -31,6 +34,11 @@ public class AddProductsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_product);
         Intent i = getIntent();
         PricingLevel = i.getExtras().getString("PricingLevel");
+        Bundle extras = i.getExtras();
+        products = (ArrayList<ProductsAdded>) extras.getSerializable("products");
+        String q_products = products.size() + " PRODUCTS ADDED";
+        TextView products_added = (TextView) findViewById(R.id.products_added);
+        products_added.setText(q_products);
         sv= (SearchView) findViewById(R.id.sv);
         populateProductsList(TblProductsList, PricingLevel);
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -76,14 +84,32 @@ public class AddProductsActivity extends AppCompatActivity {
         TextView childTax = (TextView)vwParentRow.findViewById(R.id.productTax);
         Spinner childUM = (Spinner)vwParentRow.findViewById(R.id.productUM);
         EditText childQuantity = (EditText)vwParentRow.findViewById(R.id.productQuantity);
+        ProductsAdded p=null;
+        p=new ProductsAdded();
+        p.setItemID(childID.getText().toString());
+        p.setItemTax(Integer.parseInt(childTax.getText().toString()));
+        p.setItemDescription(childDescription.getText().toString());
+        p.setItemPrice(childPrice.getText().toString());
+        p.setItemQuantity(childQuantity.getText().toString());
+        p.setItemUM(childUM.getSelectedItem().toString());
+        p.setItemTotal();
+        p.setItemPriceLevel(PricingLevel);
+        products.add(p);
+
+        String q_products = products.size() + " PRODUCTS ADDED";
+        TextView products_added = (TextView) findViewById(R.id.products_added);
+        products_added.setText(q_products);
+        childQuantity.setText("");
+    }
+
+    public void onClickBack(View v)
+    {
         Intent intent=new Intent();
-        intent.putExtra("productID", childID.getText().toString());
-        intent.putExtra("productTax", childTax.getText().toString());
-        intent.putExtra("productDescription", childDescription.getText().toString());
-        intent.putExtra("productPrice", childPrice.getText().toString());
-        intent.putExtra("productUM", childUM.getSelectedItem().toString());
-        intent.putExtra("productQuantity", childQuantity.getText().toString());
-        setResult(2,intent);
+        intent.putExtra("products", products);
+        for (ProductsAdded product: products) {
+            Log.e("Test QTY 1", "onActivityResult: " + product.getItemQuantity() );
+        }
+        setResult(2, intent);
         finish();
     }
 

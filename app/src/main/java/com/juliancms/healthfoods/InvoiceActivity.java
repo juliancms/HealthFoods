@@ -101,8 +101,6 @@ public class InvoiceActivity extends AppCompatActivity {
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.lv);
         listView.setAdapter(adapter);
-        btn_print = (Button)findViewById(R.id.btn_print);
-        btn_print.setOnClickListener(mBtnPrintOnClickListener);
         btn_connect = (Button)findViewById(R.id.btn_connect);
         btn_connect.setOnClickListener(mBtnConnetBluetoothDeviceOnClickListener);
         // Get local Bluetooth adapter
@@ -291,18 +289,6 @@ public class InvoiceActivity extends AppCompatActivity {
                 }
         }
     }
-    View.OnClickListener mBtnPrintOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(BluetoothPrintDriver.IsNoConnection()){
-                return;
-            }
-            BluetoothPrintDriver.Begin();
-            String tmpContent = "TEST";
-            BluetoothPrintDriver.BT_Write(tmpContent);
-            BluetoothPrintDriver.BT_Write("\r");
-        }
-    };
 
     OnClickListener mBtnConnetBluetoothDeviceOnClickListener = new OnClickListener() {
         Intent serverIntent = null;

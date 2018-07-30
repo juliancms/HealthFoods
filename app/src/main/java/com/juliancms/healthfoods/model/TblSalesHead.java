@@ -151,8 +151,8 @@ public class TblSalesHead extends BaseModel {
             type_text = "CASH";
         } else if (this.Type == 2){
             type_text = "CREDIT";
-        } else if(this.Type == 2){
-            type_text = "RETURNS";
+        } else if(this.Type == 3){
+            type_text = "RETURN";
         }
         return type_text;
     }

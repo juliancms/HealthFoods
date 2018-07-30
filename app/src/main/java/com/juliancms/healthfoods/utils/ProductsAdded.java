@@ -18,7 +18,7 @@ public class ProductsAdded implements Parcelable {
     String ItemUM;
     String ItemPriceLevel;
     Integer ItemTax;
-    Integer ItemQuantity;
+    String ItemQuantity;
     Double ItemTotal;
 
     public ProductsAdded() {
@@ -31,7 +31,7 @@ public class ProductsAdded implements Parcelable {
         this.ItemID= ItemID;
     }
 
-    public Integer getItemTax() {
+    public Integer  getItemTax() {
         return ItemTax;
     }
     public void setItemTax(int ItemTax) {
@@ -57,9 +57,14 @@ public class ProductsAdded implements Parcelable {
         this.ItemPrice= ItemPrice;
     }
 
-    public Integer getItemQuantity() {
+    public void setItemQuantity(String ItemQuantity) {
+        this.ItemQuantity = ItemQuantity;
+    }
+
+    public String getItemQuantity() {
         return ItemQuantity;
     }
+
     public Integer getItemQuantityUM() {
         Integer number = 0;
         Integer n;
@@ -73,9 +78,7 @@ public class ProductsAdded implements Parcelable {
         }
         return n;
     }
-    public void setItemQuantity(Integer ItemQuantity) {
-        this.ItemQuantity= ItemQuantity;
-    }
+
 
     public String getItemUM() {
         return ItemUM;
@@ -96,7 +99,7 @@ public class ProductsAdded implements Parcelable {
     }
     public void setItemTotal() {
         Double total_double = Double.parseDouble(getItemPriceNumbers());
-        int total_quantity = ItemQuantity * getItemQuantityUM();
+        int total_quantity = Integer.parseInt(ItemQuantity) * getItemQuantityUM();
         total_double = total_double * total_quantity;
         this.ItemTotal = total_double;
     }
@@ -115,7 +118,7 @@ public class ProductsAdded implements Parcelable {
         ItemPrice = in.readString();
         ItemUM = in.readString();
         ItemPriceLevel = in.readString();
-        ItemQuantity = in.readByte() == 0x00 ? null : in.readInt();
+        ItemQuantity = in.readString();
         ItemTax = in.readByte() == 0x00 ? null : in.readInt();
         ItemTotal = in.readByte() == 0x00 ? null : in.readDouble();
     }
@@ -132,17 +135,12 @@ public class ProductsAdded implements Parcelable {
         dest.writeString(ItemPrice);
         dest.writeString(ItemUM);
         dest.writeString(ItemPriceLevel);
+        dest.writeString(ItemQuantity);
         if (ItemTax == null) {
             dest.writeByte((byte) (0x00));
         } else {
             dest.writeByte((byte) (0x01));
             dest.writeInt(ItemTax);
-        }
-        if (ItemQuantity == null) {
-            dest.writeByte((byte) (0x00));
-        } else {
-            dest.writeByte((byte) (0x01));
-            dest.writeInt(ItemQuantity);
         }
         if (ItemTotal == null) {
             dest.writeByte((byte) (0x00));

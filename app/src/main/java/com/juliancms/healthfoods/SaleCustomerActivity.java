@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -106,27 +107,34 @@ public class SaleCustomerActivity extends AppCompatActivity {
             if (requestCode == 2) {
             // Make sure the request was successful
             Bundle extras = intent.getExtras();
-            String productID = extras.getString("productID");
-            String productTax = extras.getString("productTax");
-            String productDescription = extras.getString("productDescription");
-            String productPrice = extras.getString("productPrice");
-            String productQuantity = extras.getString("productQuantity");
-            String productUM = extras.getString("productUM");
-            ProductsAdded p=null;
-            p=new ProductsAdded();
-            p.setItemID(productID);
-            p.setItemTax(Integer.parseInt(productTax));
-            p.setItemDescription(productDescription);
-            p.setItemPrice(productPrice);
-            p.setItemQuantity(Integer.parseInt(productQuantity));
-            p.setItemUM(productUM);
-            p.setItemTotal();
-            p.setItemPriceLevel(ItemPriceLevel);
-            products.add(p);
+//            String productID = extras.getString("productID");
+//            String productTax = extras.getString("productTax");
+//            String productDescription = extras.getString("productDescription");
+//            String productPrice = extras.getString("productPrice");
+//            String productQuantity = extras.getString("productQuantity");
+//            String productUM = extras.getString("productUM");
+//            ProductsAdded p=null;
+//            p=new ProductsAdded();
+//            p.setItemID(productID);
+//            p.setItemTax(Integer.parseInt(productTax));
+//            p.setItemDescription(productDescription);
+//            p.setItemPrice(productPrice);
+//            p.setItemQuantity(Integer.parseInt(productQuantity));
+//            p.setItemUM(productUM);
+//            p.setItemTotal();
+//            p.setItemPriceLevel(ItemPriceLevel);
+//            products.add(p);
+            products = (ArrayList<ProductsAdded>) extras.getSerializable("products");
             if(products.size() > 0){
                 Button btn_save = (Button) findViewById(R.id.button2);
                 btn_save.setEnabled(true);
             }
+
+            for (ProductsAdded product: products) {
+                Log.e("Test QTY 2", "onActivityResult: " + product.getItemQuantity() );;
+            }
+
+
             adapter2 = new CustomNewSaleAdapter(this, products, SaleCustomerActivity.this);
             // Attach the adapter to a ListView
             ListView listView = (ListView) findViewById(R.id.lv);
@@ -176,6 +184,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
         }
         Intent intent=new Intent(SaleCustomerActivity.this,AddProductsActivity.class);
         intent.putExtra("PricingLevel", ItemPriceLevel);
+        intent.putExtra("products", products);
         startActivityForResult(intent, 2);// Activity is started with requestCode 2
 
 //        intent.putParcelableArrayListExtra("products", products);
@@ -235,7 +244,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
                         where(TblProducts_Table.id.eq(Long.valueOf(product.getItemID()))).querySingle();
                 sale_detail.product = product_db;
                 sale_detail.setDateS(dtS.getMillis());
-                sale_detail.setItemQuantity(product.getItemQuantity());
+                sale_detail.setItemQuantity(Integer.valueOf(product.getItemQuantity()));
                 sale_detail.setQuantityUM(product.getItemQuantityUM());
                 sale_detail.setUnitPriceS(product.getItemPriceNumbers());
                 sale_detail.setVatS(product.getItemVAT());

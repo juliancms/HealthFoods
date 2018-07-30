@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class CustomNewSaleAdapter extends BaseAdapter {
 
     Context c;
-    ArrayList<ProductsAdded> products;
+    public static ArrayList<ProductsAdded> products;
     LayoutInflater inflater;
     Activity activity;
     public static Double total;

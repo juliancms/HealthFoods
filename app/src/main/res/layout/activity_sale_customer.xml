@@ -15,7 +15,8 @@
         android:text="@string/customer"
         app:layout_constraintBottom_toTopOf="@+id/add_products"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="8dp" />
 
     <AutoCompleteTextView
         android:id="@+id/customer"
@@ -27,7 +28,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/id_vehicle"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginLeft="8dp" />
 
     <Button
         android:id="@+id/add_products"
@@ -140,7 +142,8 @@
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/sub_total" />
+        app:layout_constraintEnd_toStartOf="@+id/sub_total"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/sub_total"
@@ -152,7 +155,8 @@
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/total_tax" />
+        app:layout_constraintEnd_toStartOf="@+id/total_tax"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/total_tax"
@@ -165,7 +169,8 @@
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button2"
-        app:layout_constraintEnd_toStartOf="@+id/total_total" />
+        app:layout_constraintEnd_toStartOf="@+id/total_total"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/total_total"
@@ -178,7 +183,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:layout_marginRight="8dp" />
 
     <Button
         android:id="@+id/button2"
