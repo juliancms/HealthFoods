@@ -2,22 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_import"
-            android:icon="@drawable/ic_sd_storage_black_24dp"
-            android:title="@string/nav_import" />
-        <item
-            android:id="@+id/nav_export"
-            android:icon="@drawable/ic_sd_storage_black_24dp"
-            android:title="@string/nav_export" />
-        <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_content_paste_black_24dp"
-            android:title="@string/profile" />
-    </group>
-
     <item android:title="@string/sales">
         <menu>
             <item
@@ -36,5 +20,25 @@
                 android:title="@string/new_sale_return" />
         </menu>
     </item>
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_import"
+            android:icon="@drawable/ic_sd_storage_black_24dp"
+            android:title="@string/nav_import" />
+        <item
+            android:id="@+id/nav_export"
+            android:icon="@drawable/ic_sd_storage_black_24dp"
+            android:title="@string/nav_export" />
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_content_paste_black_24dp"
+            android:title="@string/profile" />
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/about" />
+    </group>
+
+
 
 </menu>

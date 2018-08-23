@@ -5,9 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,6 +24,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -115,7 +117,8 @@ public class ExportActivity extends AppCompatActivity {
             String d2 = endDate.getText().toString() + " 23:59:59";
             DateTime dateTime1 = DateTime.parse(d1, dtf);
             DateTime dateTime2 = DateTime.parse(d2, dtf);
-            CSVWriter writer = new CSVWriter(new FileWriter(from + "/export.csv"));
+            String filename = from + "/sales"+dateTime1.getDayOfMonth()+dateTime1.getMonthOfYear()+dateTime1.getYear()+"-"+dateTime2.getDayOfMonth()+dateTime2.getMonthOfYear()+dateTime2.getYear()+".csv";
+            CSVWriter writer = new CSVWriter(new FileWriter(filename));
             //Create record
             TblProfile Profile = SQLite.select().
                     from(TblProfile.class).querySingle();
@@ -176,7 +179,6 @@ public class ExportActivity extends AppCompatActivity {
                 } else {
                     sale.add(Amount.toString());
                 }
-                Log.e("NO LO PEUDO CREER", "handleDirectoryChoice: " + sales.getDateS());
                 sale.add(sales.product.getGlInventoryAccount());
                 sale.add(sales.product.getGLCOGSSalaryAcct());
                 sale.add("1");
@@ -189,6 +191,14 @@ public class ExportActivity extends AppCompatActivity {
             }
             //close the writer
             writer.close();
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Sales");
+            Uri fileURI = FileProvider.getUriForFile(ExportActivity.this,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    new File(filename));
+            sendIntent.putExtra(Intent.EXTRA_STREAM, fileURI);
+            sendIntent.setType("text/html");
+            startActivity(sendIntent);
             Toast.makeText(this, "The invoices has been successfully exported", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();

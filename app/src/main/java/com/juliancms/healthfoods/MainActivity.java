@@ -167,6 +167,10 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_export) {
             Intent intent = new Intent(this, ExportActivity.class);
             startActivity(intent);
+        } else if (id == R.id.nav_about) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_new_cash) {
             Intent intent = new Intent(this, SaleCustomerActivity.class);
             intent.putExtra("sale_type", 1);
