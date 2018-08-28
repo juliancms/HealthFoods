@@ -129,62 +129,47 @@ public class ExportActivity extends AppCompatActivity {
                     queryList();
             for (TblSalesDetail sales: SalesList) {
                 List<String> sale = new ArrayList<String>();
-                sale.add(sales.saleHead.customer.getCustomerID());
-                sale.add(Profile.getPrefixSalesMan() + sales.saleHead.getIdSalesHead());
-                sale.add("");
-                sale.add("FALSE");
-                sale.add(sales.saleHead.getDateS().toString());
-                sale.add(sales.saleHead.customer.getCustomerName());
-                sale.add(sales.saleHead.getDateDue());
-                Integer total_quantity = sales.getItemQuantity() * sales.getQuantityUM();
-                Double DiscountAmount = round(total_quantity * Double.parseDouble(sales.getUnitPriceS()) * sales.getVatS(), 2);
-                sale.add(DiscountAmount.toString());
-                sale.add(sales.saleHead.customer.getDueDays() + " days");//Por confirmar Displayed Terms
+                sale.add(sales.saleHead.getType());
                 sale.add(Profile.getPrefixSalesMan());
-                sale.add("10301-HO");
-                sale.add("VAT");
-                sale.add("");
-                sale.add(sales.saleHead.getNoDistrib().toString());
-                sale.add(total_quantity.toString());
-                if(sales.product.getItemID().equals("11111")){
-                    sale.add("");
-                } else {
-                    sale.add(sales.product.getItemID());
-                }
+                sale.add(String.valueOf(sales.saleHead.getIdSalesHead()));
+                sale.add(sales.saleHead.customer.getCustomerID());
+                sale.add(sales.saleHead.customer.getCustomerName());
+                sale.add(sales.saleHead.getDateS().toString());
+                sale.add(sales.saleHead.getDateV().toString());
+                sale.add(sales.saleHead.getDateDue());
+                sale.add(Profile.getIdVehicles());
+                sale.add(Profile.getNameSalesMan());
+                sale.add(sales.product.getItemID());
                 sale.add(sales.product.getItemDescription());
-                sale.add(sales.product.getGLSalesAccount());
+                sale.add(String.valueOf(sales.getItemQuantity()));
+                String SalesUM;
+                if(sales.product.getSalesUMNoStockingUnits() != null){
+                    SalesUM = sales.product.getSalesUMNoStockingUnits();
+                } else {
+                    SalesUM = "0";
+                }
+                if(Integer.parseInt(SalesUM) > 0 && sales.getQuantityUM() > 1){
+                    sale.add(sales.product.getSalesUM().toString());
+                } else {
+                    sale.add("UNITS");
+                }
+                sale.add(String.valueOf(sales.getQuantityUM()));
+                sale.add(sales.getUnitPriceS());
                 Double VatPorc = 0.0;
                 if(sales.product.getItemTaxType().equals("0")){
                     VatPorc = 0.125;
                 }
-                Double UnitPrice = Double.parseDouble(sales.getUnitPriceS()) / (1 + VatPorc);
-                UnitPrice = round(UnitPrice, 2);
-                sale.add(UnitPrice.toString());
-                sale.add(sales.product.getItemTaxType());
+                sale.add(String.valueOf(VatPorc));
+                Double VatAmount = 0.0;
+                Integer total_quantity = sales.getItemQuantity() * sales.getQuantityUM();
+                Double UnitPrice = Double.parseDouble(sales.getUnitPriceS());
+                BigDecimal AmountBD = BigDecimal.valueOf(total_quantity).multiply(BigDecimal.valueOf(UnitPrice));
                 Double Amount = 0.0;
-                if(sales.product.getItemTaxType().equals("0")){
-                    Amount = sales.getVatP3();
-                    if(Amount == null || Amount == 0.0){
-                        Amount = 0.0;
-                    } else {
-                        Amount = round(Amount, 2);
-                    }
-                } else {
-                    BigDecimal AmountBD = BigDecimal.valueOf(total_quantity).multiply(BigDecimal.valueOf(UnitPrice));
-                    Amount = round(AmountBD.doubleValue(), 2);
-
-                }
-                if(sales.saleHead.getTypeInt() < 3){
-                    sale.add("-" + Amount.toString());
-                } else {
-                    sale.add(Amount.toString());
-                }
-                sale.add(sales.product.getGlInventoryAccount());
-                sale.add(sales.product.getGLCOGSSalaryAcct());
-                sale.add("1");
-                sale.add(sales.getSalesTypeAgencyID());
-                sale.add("");
-                sale.add("");
+                VatAmount = total_quantity * UnitPrice * VatPorc;
+                sale.add(String.valueOf(VatAmount));
+                Double Total = 0.0;
+                Total = total_quantity * UnitPrice + VatAmount;
+                sale.add(String.valueOf(total_quantity));
                 String[] record = new String[sale.size()];
                 record = sale.toArray(record);
                 writer.writeNext(record);

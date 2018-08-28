@@ -107,12 +107,6 @@ public class SettingsActivity extends AppCompatActivity {
                 TblProductsList = SQLite.select().
                         from(TblProducts.class).queryList();
                 _tvEditTblProducts.setText("Total products added: " + TblProductsList.size());
-                TblProducts boir = new TblProducts();
-                boir.setItemID("11111");
-                boir.setItemDescription("B.O.I.R.");
-                boir.setGLSalesAccount("14001-HO");
-                boir.setItemTaxType("0");
-                boir.save();
                 Toast.makeText(this, "" + TblProductsList.size() + " products were imported successfully", Toast.LENGTH_SHORT).show();
             } else if (buttontype == 2){
                 CSVReader reader = new CSVReader(new FileReader(from));

@@ -25,8 +25,7 @@ public class AddProductsActivity extends AppCompatActivity {
     ArrayList<ProductsAdded> products=new ArrayList<>();
     SearchView sv;
     ArrayList<TblProducts> TblProductsList = (ArrayList<TblProducts>) SQLite.select().
-            from(TblProducts.class).
-            where(TblProducts_Table.ItemID.notEq("11111")).queryList();
+            from(TblProducts.class).queryList();
     String PricingLevel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +64,7 @@ public class AddProductsActivity extends AppCompatActivity {
     {
         ArrayList<TblProducts> ProductsArray = (ArrayList<TblProducts>) SQLite.select().
                 from(TblProducts.class).
-                where(TblProducts_Table.ItemDescription.like("%" + searchTerm + "%")).
-                and(TblProducts_Table.ItemID.notEq("11111")).queryList();
+                where(TblProducts_Table.ItemDescription.like("%" + searchTerm + "%")).queryList();
 
         CustomProductsAdapter adapter = new CustomProductsAdapter(this, ProductsArray, AddProductsActivity.this, PricingLevel);
         // Attach the adapter to a ListView

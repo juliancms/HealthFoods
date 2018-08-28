@@ -216,7 +216,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
         String dateDue = dtf.print(dtdue);
         sale.setDateS(dtf.print(dt));
         sale.setDateDue(dateDue);
-        DateTimeFormatter dtf2 = DateTimeFormat.forPattern("MM/dd/yyyy HH:mm");
+        DateTimeFormatter dtf2 = DateTimeFormat.forPattern("HH:mm");
         String dateString2 = dtf2.print(dt);
         sale.setDateV(dateString2);
         sale.setType(sale_type);
@@ -250,20 +250,19 @@ public class SaleCustomerActivity extends AppCompatActivity {
                 sale_detail.setVatS(product.getItemVAT());
                 sales.add(sale_detail);
             }
-            TblProducts product_db = SQLite.select().
-                    from(TblProducts.class).
-                    where(TblProducts_Table.ItemID.eq("11111")).querySingle();
-            TblSalesDetail sale_detail = new TblSalesDetail();
-            sale_detail.saleHead = sale;
-            sale_detail.product = product_db;
-            sale_detail.setQuantityUM(0);
-            sale_detail.setDateS(dtS.getMillis());
-            sale_detail.setItemQuantity(0);
-            sale_detail.setUnitPriceS("0");
-            sale_detail.setVatS(0.0);
-            sale_detail.setVatP3(CustomNewSaleAdapter.getTotalTax());
-            sale_detail.setSalesTypeAgencyID("VAT");
-            sale_detail.save();
+//            TblProducts product_db = SQLite.select().
+//                    from(TblProducts.class).querySingle();
+//            TblSalesDetail sale_detail = new TblSalesDetail();
+//            sale_detail.saleHead = sale;
+//            sale_detail.product = product_db;
+//            sale_detail.setQuantityUM(0);
+//            sale_detail.setDateS(dtS.getMillis());
+//            sale_detail.setItemQuantity(0);
+//            sale_detail.setUnitPriceS("0");
+//            sale_detail.setVatS(0.0);
+//            sale_detail.setVatP3(CustomNewSaleAdapter.getTotalTax());
+//            sale_detail.setSalesTypeAgencyID("VAT");
+//            sale_detail.save();
             FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                     FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblSalesDetail.class)).addAll(sales).build());
 
