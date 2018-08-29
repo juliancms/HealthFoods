@@ -106,8 +106,8 @@ public class ProductsAdded implements Parcelable {
 
     public Double getItemVAT() {
         Double VAT = 0.0;
-        if (this.ItemTax == 1){
-            VAT = getItemTotal() * (12.5/100);
+        if (this.ItemTax == 0){
+            VAT = getItemTotal() * (0.125);
         }
         return VAT;
     }

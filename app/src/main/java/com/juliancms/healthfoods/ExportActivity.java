@@ -117,7 +117,8 @@ public class ExportActivity extends AppCompatActivity {
             String d2 = endDate.getText().toString() + " 23:59:59";
             DateTime dateTime1 = DateTime.parse(d1, dtf);
             DateTime dateTime2 = DateTime.parse(d2, dtf);
-            String filename = from + "/sales"+dateTime1.getDayOfMonth()+dateTime1.getMonthOfYear()+dateTime1.getYear()+"-"+dateTime2.getDayOfMonth()+dateTime2.getMonthOfYear()+dateTime2.getYear()+".csv";
+//            String filename = from + "/sales"+dateTime1.getDayOfMonth()+dateTime1.getMonthOfYear()+dateTime1.getYear()+"-"+dateTime2.getDayOfMonth()+dateTime2.getMonthOfYear()+dateTime2.getYear()+".csv";
+                        String filename = from + "/TblDeviceSalesExport.csv";
             CSVWriter writer = new CSVWriter(new FileWriter(filename));
             //Create record
             TblProfile Profile = SQLite.select().
@@ -169,7 +170,7 @@ public class ExportActivity extends AppCompatActivity {
                 sale.add(String.valueOf(VatAmount));
                 Double Total = 0.0;
                 Total = total_quantity * UnitPrice + VatAmount;
-                sale.add(String.valueOf(total_quantity));
+                sale.add(String.valueOf(Total));
                 String[] record = new String[sale.size()];
                 record = sale.toArray(record);
                 writer.writeNext(record);
