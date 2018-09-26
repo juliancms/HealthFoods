@@ -1,6 +1,7 @@
 package com.juliancms.healthfoods.utils;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,7 +77,12 @@ public class CustomInvoicesAdapter extends BaseAdapter {
         DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");
         tvDate.setText(dtf2.print(dateTime));
         tvType.setText(sales.get(position).getType());
-        tvTotal.setText("$ " + round(sales.get(position).getTotal(), 2));
+        Double total_total = sales.get(position).getTotal();
+        Double credit_note = sales.get(position).getCreditNote();
+        Log.e("TOTAL", "getView: " + total_total );
+        Log.e("CREDIT note", "getView: " + credit_note );
+        Double total_with_credit = total_total - credit_note;
+        tvTotal.setText("$ " + round(total_with_credit, 2));
         return convertView;
     }
 

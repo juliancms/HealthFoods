@@ -136,7 +136,7 @@ public class CustomProductsAdapter extends BaseAdapter {
             default: tvPrice.setText("$" + products.get(position).getSalesPrice1());
                 break;
         }
-        tvID.setText(products.get(position).getId().toString());
+        tvID.setText(products.get(position).getItemID().toString());
         tvTax.setText(products.get(position).getItemTaxType());
         return convertView;
     }

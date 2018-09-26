@@ -17,7 +17,7 @@ public class TblSalesHead extends BaseModel {
     long IdSalesHead;
 
     @Column
-    long id_Customer;
+    String id_Customer;
 
     @Column
     String IdCustomersKey;
@@ -70,6 +70,9 @@ public class TblSalesHead extends BaseModel {
 
     @Column
     Double Total;
+
+    @Column(defaultValue = "0.0")
+    Double CreditNote;
 
     public long getIdSalesHead() {
         return IdSalesHead;
@@ -129,10 +132,10 @@ public class TblSalesHead extends BaseModel {
         this.PriceLevel = PriceLevel;
     }
 
-    public long getid_Customer() {
+    public String getid_Customer() {
         return id_Customer;
     }
-    public void setid_Customer(Long id_Customer) {
+    public void setid_Customer(String id_Customer) {
         this.id_Customer = id_Customer;
     }
 
@@ -143,7 +146,12 @@ public class TblSalesHead extends BaseModel {
         this.Total = Total;
     }
 
-
+    public Double getCreditNote() {
+        return CreditNote;
+    }
+    public void setCreditNote(double CreditNote) {
+        this.CreditNote = CreditNote;
+    }
 
     public String getType() {
         String type_text = null;

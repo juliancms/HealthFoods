@@ -28,14 +28,16 @@ public class CustomNewSaleAdapter extends BaseAdapter {
     Activity activity;
     public static Double total;
     public static Double total_tax;
+    public static Double credit_note;
     DecimalFormat formatter = new DecimalFormat("#,###,###.00");
 
-    public CustomNewSaleAdapter(Context c, ArrayList<ProductsAdded> products, Activity activity) {
+    public CustomNewSaleAdapter(Context c, ArrayList<ProductsAdded> products, Activity activity, Double credit_note) {
         this.c = c;
         this.products = products;
         this.activity = activity;
         this.total = null;
         this.total_tax = null;
+        this.credit_note = credit_note;
     }
 
     static class ViewHolder {
@@ -107,7 +109,7 @@ public class CustomNewSaleAdapter extends BaseAdapter {
         }
         Double subtotal = setSubTotal(view);
         Double totalTax = setTotalTax(view);
-        Double total = subtotal + totalTax;
+        Double total = (subtotal + totalTax) - credit_note;
         total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
         total_total.setText("TOTAL: $" + formatter.format(total));

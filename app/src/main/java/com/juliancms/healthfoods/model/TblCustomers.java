@@ -11,10 +11,10 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
  */
 @Table(database = AppDatabase.class)
 public class TblCustomers extends BaseModel {
-    @PrimaryKey(autoincrement = true)
-    public long id;
+//    @PrimaryKey(autoincrement = true)
+//    public long id;
 
-    @Column
+    @PrimaryKey
     String CustomerID;
 
     @Column
@@ -233,7 +233,7 @@ public class TblCustomers extends BaseModel {
     @Column
     String IDReplacement;
 
-    public Long getid() { return id; }
+//    public Long getid() { return id; }
     public String getCustomerID() { return CustomerID; }
     public String getCustomerName() { return CustomerName; }
     public String getProspect() { return Prospect; }
@@ -307,7 +307,7 @@ public class TblCustomers extends BaseModel {
     public String getCurrentBalance() { return CurrentBalance; }
     public String getCustomerWebSite() { return CustomerWebSite; }
     public String getIDReplacement() { return IDReplacement; }
-    public void setid(Long id){ this.id = id; }
+//    public void setid(Long id){ this.id = id; }
     public void setCustomerID(String CustomerID){ this.CustomerID = CustomerID; }
     public void setCustomerName(String CustomerName){ this.CustomerName = CustomerName; }
     public void setProspect(String Prospect){ this.Prospect = Prospect; }

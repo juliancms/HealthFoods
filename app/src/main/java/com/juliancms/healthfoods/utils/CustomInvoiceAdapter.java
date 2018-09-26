@@ -39,6 +39,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
     LayoutInflater inflater;
     Activity activity;
     public static Double total;
+    public static Double credit_note;
     public static String subtotal_s;
     public static String totaltax_s;
     public static String total_s;
@@ -50,6 +51,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         this.sale = sale;
         this.activity = activity;
         this.total = null;
+        this.credit_note = 0.0;
         this.subtotal_s = null;
         this.totaltax_s = null;
         this.total_s = null;
@@ -106,11 +108,14 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         }
         Double subtotal = setSubTotal(view);
         Double totalTax = setTotalTax(view);
-        Double total = subtotal + totalTax;
+        Double credit_note = sale.getCreditNote();
+        Double total = (subtotal + totalTax) - credit_note;
         total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
+        TextView tv_credit_note = (TextView) activity.findViewById(R.id.credit_note);
         this.total_s = "TOTAL: $" + formatter.format(total);
         total_total.setText(total_s);
+        tv_credit_note.setText("CREDIT NOTE: " + credit_note);
         this.total = total;
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.quantity.setText(products.get(position).getItemQuantity().toString());
@@ -235,6 +240,10 @@ public class CustomInvoiceAdapter extends BaseAdapter {
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write(totaltax_s);
             BluetoothPrintDriver.BT_Write("\r");
+            if(sale.getCreditNote() > 0.0){
+                BluetoothPrintDriver.BT_Write("CREDIT NOTE: $" + formatter.format(credit_note));
+                BluetoothPrintDriver.BT_Write("\r");
+            }
             BluetoothPrintDriver.BT_Write(total_s);
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.LF();

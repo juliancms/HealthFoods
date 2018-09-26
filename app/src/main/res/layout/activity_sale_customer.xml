@@ -119,7 +119,7 @@
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="65dp"
+        android:layout_marginBottom="95dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="90dp"
@@ -131,6 +131,18 @@
 
 
     </ListView>
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/credit_note"
+        android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+        app:layout_constraintEnd_toStartOf="@+id/credit_note"
+        app:layout_constraintTop_toBottomOf="@+id/lv"
+        android:layout_marginRight="8dp" />
 
     <TextView
         android:id="@+id/termDays"
@@ -197,5 +209,21 @@
         app:layout_constraintTop_toBottomOf="@+id/ly2"
         tools:ignore="MissingConstraints,UnknownIdInLayout"
         tools:layout_editor_absoluteX="161dp" />
+
+    <EditText
+        android:id="@+id/credit_note"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="number"
+        android:text="0"
+        android:textAlignment="textEnd"
+        android:textAppearance="@style/BB_BottomBarItem_Fixed.TitleAppearance"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lv"
+        android:layout_marginRight="8dp"
+        android:gravity="end" />
 
 </android.support.constraint.ConstraintLayout>

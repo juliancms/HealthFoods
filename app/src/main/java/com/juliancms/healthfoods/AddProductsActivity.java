@@ -3,7 +3,6 @@ package com.juliancms.healthfoods;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -27,12 +26,14 @@ public class AddProductsActivity extends AppCompatActivity {
     ArrayList<TblProducts> TblProductsList = (ArrayList<TblProducts>) SQLite.select().
             from(TblProducts.class).queryList();
     String PricingLevel;
+    String credit_note;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
         Intent i = getIntent();
         PricingLevel = i.getExtras().getString("PricingLevel");
+        credit_note = i.getExtras().getString("credit_note");
         Bundle extras = i.getExtras();
         products = (ArrayList<ProductsAdded>) extras.getSerializable("products");
         String q_products = products.size() + " PRODUCTS ADDED";
@@ -104,9 +105,6 @@ public class AddProductsActivity extends AppCompatActivity {
     {
         Intent intent=new Intent();
         intent.putExtra("products", products);
-        for (ProductsAdded product: products) {
-            Log.e("Test QTY 1", "onActivityResult: " + product.getItemQuantity() );
-        }
         setResult(2, intent);
         finish();
     }

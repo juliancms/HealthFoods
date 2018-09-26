@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +15,7 @@ import com.juliancms.healthfoods.data.AppDatabase;
 import com.juliancms.healthfoods.model.TblCustomers;
 import com.juliancms.healthfoods.model.TblProducts;
 import com.juliancms.healthfoods.model.TblSalesHead;
+import com.juliancms.healthfoods.model.TblSalesHead_Table;
 import com.opencsv.CSVReader;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
@@ -71,6 +73,36 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivityForResult(i2,PICK_FILE_REQUEST);
             }
         });
+        Button UpdateConsecutive = (Button)findViewById(R.id.update_salesconsecutive);
+        UpdateConsecutive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Integer id_sale = 0;
+                TblSalesHead lastsale = SQLite.select().
+                        from(TblSalesHead.class).
+                        where()
+                        .orderBy(TblSalesHead_Table.IdSalesHead, false)
+                        .querySingle();
+                if (lastsale != null) {
+                    id_sale = (int)lastsale.getIdSalesHead();
+                }
+                EditText editText = (EditText) findViewById(R.id.edit_salesconsecutive);
+                String salesconsecutive = editText.getText().toString();
+                Integer saleID = Integer.parseInt(salesconsecutive);
+                if(id_sale >= saleID){
+                    Toast.makeText(SettingsActivity.this, "You must place a value higher than the last sale saved in the application.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                TblSalesHead sale = new TblSalesHead();
+                sale.setIdSalesHead(saleID);
+                sale.save();
+                TblSalesHead sale2 = SQLite.select().
+                        from(TblSalesHead.class).
+                        where(TblSalesHead_Table.IdSalesHead.eq(Long.valueOf(saleID))).querySingle();
+                sale2.delete();
+                Toast.makeText(SettingsActivity.this, "Sales consecutive updated successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -88,11 +120,11 @@ public class SettingsActivity extends AppCompatActivity {
             if(buttontype == 1){
                 CSVReader reader = new CSVReader(new FileReader(from));
                 reader.readNext();
-                List<TblProducts> TblProductsList = SQLite.select().
-                        from(TblProducts.class).queryList();
-                for (TblProducts productdel: TblProductsList) {
-                    productdel.delete();
-                }
+//                List<TblProducts> TblProductsList = SQLite.select().
+//                        from(TblProducts.class).queryList();
+//                for (TblProducts productdel: TblProductsList) {
+//                    productdel.delete();
+//                }
                 List <TblProducts> products = new ArrayList();
                 while ((nextLine = reader.readNext()) != null) {
                     TblProducts product = new TblProducts();
@@ -104,18 +136,18 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                         FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblProducts.class)).addAll(products).build());
-                TblProductsList = SQLite.select().
+                List<TblProducts> TblProductsList = SQLite.select().
                         from(TblProducts.class).queryList();
                 _tvEditTblProducts.setText("Total products added: " + TblProductsList.size());
                 Toast.makeText(this, "" + TblProductsList.size() + " products were imported successfully", Toast.LENGTH_SHORT).show();
             } else if (buttontype == 2){
                 CSVReader reader = new CSVReader(new FileReader(from));
                 reader.readNext();
-                List<TblCustomers> TblCustomersList = SQLite.select().
-                        from(TblCustomers.class).queryList();
-                for (TblCustomers customerdel: TblCustomersList) {
-                    customerdel.delete();
-                }
+//                List<TblCustomers> TblCustomersList = SQLite.select().
+//                        from(TblCustomers.class).queryList();
+//                for (TblCustomers customerdel: TblCustomersList) {
+//                    customerdel.delete();
+//                }
                 List <TblCustomers> customers = new ArrayList();
                 while ((nextLine = reader.readNext()) != null) {
                     TblCustomers customer = new TblCustomers();
@@ -127,7 +159,7 @@ public class SettingsActivity extends AppCompatActivity {
                 }
                 FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                         FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblCustomers.class)).addAll(customers).build());
-                TblCustomersList = SQLite.select().
+                List<TblCustomers> TblCustomersList = SQLite.select().
                         from(TblCustomers.class).queryList();
                 _tvEditTblCustomers.setText("Total customers added: " + TblCustomersList.size());
                 Toast.makeText(this, "" + TblCustomersList.size() + " customers were imported successfully", Toast.LENGTH_SHORT).show();

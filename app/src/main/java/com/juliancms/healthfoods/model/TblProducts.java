@@ -12,10 +12,7 @@ import com.raizlabs.android.dbflow.structure.BaseModel;
 @Table(database = AppDatabase.class)
 public class TblProducts extends BaseModel {
 
-    @PrimaryKey(autoincrement = true)
-    public long id;
-
-    @Column
+    @PrimaryKey
     String ItemID;
 
     @Column
@@ -279,7 +276,6 @@ public class TblProducts extends BaseModel {
     @Column
     Integer ItemQuantity;
 
-    public Long getId() { return id; }
     public String getItemID() { return ItemID; }
     public String getItemDescription() { return ItemDescription; }
     public String getItemClass() { return ItemClass; }
@@ -371,7 +367,6 @@ public class TblProducts extends BaseModel {
     public String getIsTaxable() { return IsTaxable; }
     public String getWarrantyPeriod() { return WarrantyPeriod; }
     public Integer getItemQuantity() { return ItemQuantity; }
-    public void setId(Long id){ this.id = id; }
     public void setItemID(String ItemID){ this.ItemID = ItemID; }
     public void setItemDescription(String ItemDescription){ this.ItemDescription = ItemDescription; }
     public void setItemClass(String ItemClass){ this.ItemClass = ItemClass; }

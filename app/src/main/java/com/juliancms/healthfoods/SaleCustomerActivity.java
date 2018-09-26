@@ -4,7 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -44,6 +45,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
     ArrayList<ProductsAdded> products=new ArrayList<>();
     String customerID;
     String ItemPriceLevel;
+    Double credit_note = 0.0;
     TblCustomers Customer = null;
     Integer sale_type;
     CustomNewSaleAdapter adapter2;
@@ -78,7 +80,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
         List Customers = new ArrayList();
         final int size = TblCustomersList.size();
         for (TblCustomers customer: TblCustomersList) {
-            Customers.add(customer.getCustomerName() + " (" + customer.getid() + ")");
+            Customers.add(customer.getCustomerName() + " (" + customer.getCustomerID() + ")");
         }
         ArrayAdapter<TblCustomers> adapter = new ArrayAdapter<TblCustomers>(this,
                 android.R.layout.simple_dropdown_item_1line, Customers);
@@ -94,6 +96,32 @@ public class SaleCustomerActivity extends AppCompatActivity {
             }
 
         });
+        EditText cn = (EditText) findViewById(R.id.credit_note);
+        cn.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                EditText et_credit_note = (EditText) findViewById(R.id.credit_note);
+                if(!et_credit_note.getText().toString().matches("")) {
+                    credit_note = Double.parseDouble(et_credit_note.getText().toString());
+                } else {
+                    credit_note = 0.0;
+                }
+                adapter2 = new CustomNewSaleAdapter(SaleCustomerActivity.this, products, SaleCustomerActivity.this, credit_note);
+                // Attach the adapter to a ListView
+                ListView listView = (ListView) findViewById(R.id.lv);
+                listView.setAdapter(adapter2);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
     @Override
@@ -107,35 +135,12 @@ public class SaleCustomerActivity extends AppCompatActivity {
             if (requestCode == 2) {
             // Make sure the request was successful
             Bundle extras = intent.getExtras();
-//            String productID = extras.getString("productID");
-//            String productTax = extras.getString("productTax");
-//            String productDescription = extras.getString("productDescription");
-//            String productPrice = extras.getString("productPrice");
-//            String productQuantity = extras.getString("productQuantity");
-//            String productUM = extras.getString("productUM");
-//            ProductsAdded p=null;
-//            p=new ProductsAdded();
-//            p.setItemID(productID);
-//            p.setItemTax(Integer.parseInt(productTax));
-//            p.setItemDescription(productDescription);
-//            p.setItemPrice(productPrice);
-//            p.setItemQuantity(Integer.parseInt(productQuantity));
-//            p.setItemUM(productUM);
-//            p.setItemTotal();
-//            p.setItemPriceLevel(ItemPriceLevel);
-//            products.add(p);
             products = (ArrayList<ProductsAdded>) extras.getSerializable("products");
             if(products.size() > 0){
                 Button btn_save = (Button) findViewById(R.id.button2);
                 btn_save.setEnabled(true);
             }
-
-            for (ProductsAdded product: products) {
-                Log.e("Test QTY 2", "onActivityResult: " + product.getItemQuantity() );;
-            }
-
-
-            adapter2 = new CustomNewSaleAdapter(this, products, SaleCustomerActivity.this);
+            adapter2 = new CustomNewSaleAdapter(this, products, SaleCustomerActivity.this, credit_note);
             // Attach the adapter to a ListView
             ListView listView = (ListView) findViewById(R.id.lv);
             listView.setAdapter(adapter2);
@@ -146,7 +151,6 @@ public class SaleCustomerActivity extends AppCompatActivity {
     /** Called when the user taps the New Sale button */
     public void add_products(View view) {
         EditText customer_id = (EditText) findViewById(R.id.customer);
-//
         if(customer_id.getText().toString().length() == 0){
             Toast.makeText(this, customer_id.getText().toString() + "You must select a valid customer before adding products.", Toast.LENGTH_SHORT).show();
             return;
@@ -163,7 +167,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
             customerID = customerID.substring(0, customerID.length() - 1);
             Customer = SQLite.select().
                     from(TblCustomers.class).
-                    where(TblCustomers_Table.id.eq(Long.valueOf(customerID))).querySingle();
+                    where(TblCustomers_Table.CustomerID.eq(customerID)).querySingle();
             if(Customer == null){
                 Toast.makeText(this, "You must select a valid customer before adding products.", Toast.LENGTH_SHORT).show();
                 return;
@@ -186,26 +190,16 @@ public class SaleCustomerActivity extends AppCompatActivity {
         intent.putExtra("PricingLevel", ItemPriceLevel);
         intent.putExtra("products", products);
         startActivityForResult(intent, 2);// Activity is started with requestCode 2
-
-//        intent.putParcelableArrayListExtra("products", products);
-//        startActivity(intent);
     }
 
     /** Called when the user taps the Save button */
     public void save(View view) {
 
-//        EditText customer_id = (EditText) findViewById(R.id.customer);
-//        String value = customer_id.getText().toString();
-//        String segments[] = value.split("[(]");
-//        String customerID = segments[segments.length - 1];
-//        customerID = customerID.substring(0, customerID.length() - 1);
-
-
         TblSalesHead sale = new TblSalesHead();
-        sale.setid_Customer(Customer.getid());
+        sale.setid_Customer(Customer.getCustomerID().toString());
         sale.setCustomerName(Customer.getCustomerName());
-        sale.setTotal(CustomNewSaleAdapter.getTotal());
-
+        sale.setTotal(CustomNewSaleAdapter.getTotal() + credit_note);
+        sale.setCreditNote(credit_note);
         Integer days = Integer.parseInt(Customer.getDueDays());
         long date = System.currentTimeMillis();
         DateTime dt = new DateTime(date);
@@ -229,7 +223,6 @@ public class SaleCustomerActivity extends AppCompatActivity {
             sale.setIdVehiclesKey(tblprofile.getIdVehicles());
             break;
         }
-//        sale.setPriceLevel(Integer.parseInt(ItemPriceLevel));
         if(sale.save()){
             if(products.size() < 1){
                 Toast.makeText(this, "You must add products before saving.", Toast.LENGTH_SHORT).show();
@@ -241,7 +234,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
                 sale_detail.saleHead = sale;
                 TblProducts product_db = SQLite.select().
                         from(TblProducts.class).
-                        where(TblProducts_Table.id.eq(Long.valueOf(product.getItemID()))).querySingle();
+                        where(TblProducts_Table.ItemID.eq(product.getItemID())).querySingle();
                 sale_detail.product = product_db;
                 sale_detail.setDateS(dtS.getMillis());
                 sale_detail.setItemQuantity(Integer.valueOf(product.getItemQuantity()));
@@ -250,19 +243,6 @@ public class SaleCustomerActivity extends AppCompatActivity {
                 sale_detail.setVatS(product.getItemVAT());
                 sales.add(sale_detail);
             }
-//            TblProducts product_db = SQLite.select().
-//                    from(TblProducts.class).querySingle();
-//            TblSalesDetail sale_detail = new TblSalesDetail();
-//            sale_detail.saleHead = sale;
-//            sale_detail.product = product_db;
-//            sale_detail.setQuantityUM(0);
-//            sale_detail.setDateS(dtS.getMillis());
-//            sale_detail.setItemQuantity(0);
-//            sale_detail.setUnitPriceS("0");
-//            sale_detail.setVatS(0.0);
-//            sale_detail.setVatP3(CustomNewSaleAdapter.getTotalTax());
-//            sale_detail.setSalesTypeAgencyID("VAT");
-//            sale_detail.save();
             FlowManager.getDatabase(AppDatabase.class).executeTransaction(
                     FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblSalesDetail.class)).addAll(sales).build());
 

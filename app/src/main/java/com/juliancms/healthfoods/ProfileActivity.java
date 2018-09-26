@@ -35,6 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
             editText.setText(tblprofile.getPrefixSalesMan().toString());
             editText = (EditText) findViewById(R.id.edit_namesalesman);
             editText.setText(tblprofile.getNameSalesMan().toString());
+            editText = (EditText) findViewById(R.id.edit_salesconsecutive);
         }
         SaveData = (Button)findViewById(R.id.save);
         SaveData.setOnClickListener(new View.OnClickListener() {

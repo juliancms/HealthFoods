@@ -66,6 +66,9 @@
     <string name="title_other_devices">Other Available Devices</string>
     <string name="button_scan">Scan for devices</string>
     <string name="about">About</string>
+    <string name="credit_note">Credit note:</string>
+    <string name="sales_consecutive">Sales Consecutive</string>
+    <string name="new_saleconsecutive">NEW SALES CONSECUTIVE</string>
     <string-array name="um_arrays">
         <item>BAG25LBS</item>
         <item>BALE48</item>
