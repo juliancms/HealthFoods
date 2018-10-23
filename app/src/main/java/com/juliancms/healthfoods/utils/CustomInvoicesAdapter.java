@@ -1,6 +1,8 @@
 package com.juliancms.healthfoods.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +52,7 @@ public class CustomInvoicesAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         if(inflater==null)
@@ -71,7 +74,15 @@ public class CustomInvoicesAdapter extends BaseAdapter {
 
         // Populate the data into the template view using the data object
         tvID.setText(String.valueOf(sales.get(position).getIdSalesHead()));
-        tvCustomer.setText(String.valueOf(sales.get(position).getCustomerName()));
+        if(sales.get(position).getStatus() > 0){
+            tvCustomer.setText(String.valueOf(sales.get(position).getCustomerName()) + " (VOIDED)");
+            tvCustomer.setTextColor(Color.RED);
+            tvID.setTextColor(Color.RED);
+        } else {
+            tvCustomer.setText(String.valueOf(sales.get(position).getCustomerName()));
+            tvCustomer.setTextColor(Color.BLACK);
+            tvID.setTextColor(Color.BLACK);
+        }
         DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
         DateTime dateTime = DateTime.parse(sales.get(position).getDateS(), dtf);
         DateTimeFormatter dtf2 = DateTimeFormat.forPattern("dd/MMMM/yyyy");

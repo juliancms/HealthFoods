@@ -146,6 +146,13 @@ public class TblSalesHead extends BaseModel {
         this.Total = Total;
     }
 
+    public Integer getStatus() {
+        return Status;
+    }
+    public void setStatus(int Status) {
+        this.Status = Status;
+    }
+
     public Double getCreditNote() {
         return CreditNote;
     }

@@ -2,9 +2,12 @@ package com.juliancms.healthfoods;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -67,6 +70,8 @@ public class InvoiceActivity extends AppCompatActivity {
     private BluetoothAdapter mBluetoothAdapter = null;
     // Member object for the chat services
     private BluetoothPrintDriver mChatService = null;
+    TblSalesHead sale = new TblSalesHead();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +80,7 @@ public class InvoiceActivity extends AppCompatActivity {
         Intent i = getIntent();
         mTitle = (TextView) findViewById(R.id.printer_status);
         String saleID = i.getStringExtra("saleID");
-        TblSalesHead sale = SQLite.select().
+        sale = SQLite.select().
                 from(TblSalesHead.class).
                 where(TblSalesHead_Table.IdSalesHead.eq(Long.valueOf(saleID))).querySingle();
         ArrayList<TblSalesDetail> products = (ArrayList<TblSalesDetail>)  SQLite.select().
@@ -90,6 +95,10 @@ public class InvoiceActivity extends AppCompatActivity {
         tvType.setText(sale.getType());
         if(sale.getType() == "CREDIT"){
             tvType.setText(sale.getType() + " DUE DAYS: " + sale.customer.getDueDays());
+        }
+        if(sale.getStatus() == 1){
+            TextView tvVoided = (TextView) findViewById(R.id.voided);
+            tvVoided.setVisibility(View.VISIBLE);
         }
         tvSaleID.setText("ID: " + String.valueOf(sale.getIdSalesHead()));
         DateTimeFormatter dtf = DateTimeFormat.forPattern("MM/dd/yyyy");
@@ -299,4 +308,36 @@ public class InvoiceActivity extends AppCompatActivity {
             startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
         }
     };
+
+    /** Called when the user taps the Void button */
+    public void voidInvoice(View view) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle("Void invoice")
+                .setMessage("Are you sure you want to void this invoice?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // continue with void
+                        sale.setStatus(1);
+                        if(sale.save()){
+                            Toast.makeText(InvoiceActivity.this, "Invoice voided successfully", Toast.LENGTH_SHORT).show();
+                            TextView tvVoided = (TextView) findViewById(R.id.voided);
+                            tvVoided.setVisibility(View.VISIBLE);
+                            return;
+                        }
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                        return;
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 }

@@ -33,6 +33,8 @@
     <string name="dct">DCT</string>
     <string name="price">PRICE</string>
     <string name="total">TOTAL</string>
+    <string name="void_invoice">VOID</string>
+    <string name="voided_invoice">VOIDED</string>
     <string name="add_symbol">+</string>
     <string name="remove_symbol">-</string>
     <string name="checkout">CHECKOUT >></string>

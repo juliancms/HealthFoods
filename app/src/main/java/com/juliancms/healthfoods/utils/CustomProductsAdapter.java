@@ -81,28 +81,6 @@ public class CustomProductsAdapter extends BaseAdapter {
                 android.R.layout.simple_spinner_item, tvUMList);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tvUM.setAdapter(dataAdapter);
-        Quantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    handler.postDelayed(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (lastFocussedPosition == -1 || lastFocussedPosition == position) {
-                                lastFocussedPosition = position;
-                                Quantity.requestFocus();
-                            }
-                        }
-                    }, 200);
-
-                } else {
-                    lastFocussedPosition = -1;
-                }
-            }
-        });
-
 
         // Populate the data into the template view using the data object
         tvDescription.setText(products.get(position).getItemDescription());

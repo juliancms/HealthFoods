@@ -178,7 +178,7 @@ public class ExportActivity extends AppCompatActivity {
             //close the writer
             writer.close();
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Sales");
+            sendIntent.putExtra(Intent.EXTRA_SUBJECT, "Sales " + Profile.getNameSalesMan());
             Uri fileURI = FileProvider.getUriForFile(ExportActivity.this,
                     BuildConfig.APPLICATION_ID + ".provider",
                     new File(filename));

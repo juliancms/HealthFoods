@@ -188,6 +188,20 @@
         android:layout_marginLeft="8dp" />
 
     <Button
+        android:id="@+id/button"
+        android:layout_width="50dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="4dp"
+        android:onClick="voidInvoice"
+        android:text="@string/void_invoice"
+        android:textSize="10sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="4dp" />
+
+    <Button
         android:id="@+id/btn_print"
         android:layout_width="60dp"
         android:layout_height="35dp"
@@ -204,13 +218,25 @@
         android:layout_width="80dp"
         android:layout_height="35dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
         android:text="@string/connect"
         android:textSize="10sp"
         android:typeface="normal"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/voided"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="55dp"
+        android:text="@string/voided_invoice"
+        android:textSize="90sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

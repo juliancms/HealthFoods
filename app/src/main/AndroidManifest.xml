@@ -43,7 +43,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".AddProductsActivity" />
+        <activity android:name=".AddProductsActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".SaleCustomerActivity">
 
             <!-- The meta-data tag is required if you support API level 15 and lower -->

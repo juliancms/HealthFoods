@@ -113,9 +113,13 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
         TextView tv_credit_note = (TextView) activity.findViewById(R.id.credit_note);
-        this.total_s = "TOTAL: $" + formatter.format(total);
+        if(sale.getTypeInt() == 3){
+            this.total_s = "TOTAL: $ (" + formatter.format(total) + ")";
+        } else {
+            this.total_s = "TOTAL: $" + formatter.format(total);
+        }
         total_total.setText(total_s);
-        tv_credit_note.setText("CREDIT NOTE: " + credit_note);
+        tv_credit_note.setText("CREDIT NOTE: $" + formatter.format(credit_note));
         this.total = total;
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.quantity.setText(products.get(position).getItemQuantity().toString());
