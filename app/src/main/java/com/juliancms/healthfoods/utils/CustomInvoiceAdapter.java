@@ -114,7 +114,7 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
         TextView tv_credit_note = (TextView) activity.findViewById(R.id.credit_note);
         if(sale.getTypeInt() == 3){
-            this.total_s = "TOTAL: $ (" + formatter.format(total) + ")";
+            this.total_s = "TOTAL: ($" + formatter.format(total) + ")";
         } else {
             this.total_s = "TOTAL: $" + formatter.format(total);
         }
@@ -217,6 +217,8 @@ public class CustomInvoiceAdapter extends BaseAdapter {
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("Customer: " + sale.customer.getCustomerName());
             BluetoothPrintDriver.BT_Write("\r");
+            BluetoothPrintDriver.LF();
+            BluetoothPrintDriver.CR();
             BluetoothPrintDriver.BT_Write("Product Description");
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("QTY (UM)  *  UNIT PRICE  =  ");

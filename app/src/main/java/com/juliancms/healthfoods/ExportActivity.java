@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.juliancms.healthfoods.model.TblProfile;
 import com.juliancms.healthfoods.model.TblSalesDetail;
 import com.juliancms.healthfoods.model.TblSalesDetail_Table;
+import com.juliancms.healthfoods.model.TblSalesHead;
+import com.juliancms.healthfoods.model.TblSalesHead_Table;
 import com.opencsv.CSVWriter;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
@@ -125,8 +127,11 @@ public class ExportActivity extends AppCompatActivity {
                     from(TblProfile.class).querySingle();
             List<TblSalesDetail> SalesList = SQLite.select().
                     from(TblSalesDetail.class).
-                    where(TblSalesDetail_Table.DateS.greaterThanOrEq(dateTime1.getMillis())).
-                    and(TblSalesDetail_Table.DateS.lessThanOrEq(dateTime2.getMillis())).
+                    leftOuterJoin(TblSalesHead.class).
+                    on(TblSalesDetail_Table.saleHead_IdSalesHead.withTable().eq(TblSalesHead_Table.IdSalesHead)).
+                    where(TblSalesDetail_Table.DateDetail.greaterThanOrEq(dateTime1.getMillis())).
+                    and(TblSalesDetail_Table.DateDetail.lessThanOrEq(dateTime2.getMillis())).
+                    and(TblSalesHead_Table.Status.eq(0)).
                     queryList();
             for (TblSalesDetail sales: SalesList) {
                 List<String> sale = new ArrayList<String>();

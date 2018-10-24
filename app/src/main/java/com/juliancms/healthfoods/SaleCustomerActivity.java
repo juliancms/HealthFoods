@@ -236,7 +236,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
                         from(TblProducts.class).
                         where(TblProducts_Table.ItemID.eq(product.getItemID())).querySingle();
                 sale_detail.product = product_db;
-                sale_detail.setDateS(dtS.getMillis());
+                sale_detail.setDateDetail(dtS.getMillis());
                 sale_detail.setItemQuantity(Integer.valueOf(product.getItemQuantity()));
                 sale_detail.setQuantityUM(product.getItemQuantityUM());
                 sale_detail.setUnitPriceS(product.getItemPriceNumbers());
@@ -249,6 +249,7 @@ public class SaleCustomerActivity extends AppCompatActivity {
             Intent intent = new Intent(this, InvoiceActivity.class);
             intent.putExtra("saleID", String.valueOf(sale.getIdSalesHead()));
             startActivity(intent);
+            finish();
         }
 
     }

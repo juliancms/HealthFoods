@@ -25,7 +25,7 @@ public class TblSalesDetail extends BaseModel {
     public TblSalesHead saleHead;
 
     @Column
-    Long DateS;
+    Long DateDetail;
 
     @Column
     int ItemQuantity;
@@ -48,9 +48,9 @@ public class TblSalesDetail extends BaseModel {
     @Column
     String SalesTypeAgencyID;
 
-    public Long getDateS() { return DateS; }
-    public void setDateS(Long DateS){
-        this.DateS = DateS;
+    public Long getDateDetail() { return DateDetail; }
+    public void setDateDetail(Long DateDetail){
+        this.DateDetail = DateDetail;
     }
 
     public long getIdSalesDetail() {
