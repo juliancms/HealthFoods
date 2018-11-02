@@ -22,18 +22,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.RT_Printer.BluetoothPrinter.BLUETOOTH.BluetoothPrintDriver;
+import com.juliancms.healthfoods.data.AppDatabase;
 import com.juliancms.healthfoods.model.TblSalesDetail;
 import com.juliancms.healthfoods.model.TblSalesDetail_Table;
 import com.juliancms.healthfoods.model.TblSalesHead;
 import com.juliancms.healthfoods.model.TblSalesHead_Table;
 import com.juliancms.healthfoods.utils.CustomInvoiceAdapter;
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
+import com.raizlabs.android.dbflow.structure.database.transaction.FastStoreModelTransaction;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class InvoiceActivity extends AppCompatActivity {
     // Debugging
@@ -71,6 +75,7 @@ public class InvoiceActivity extends AppCompatActivity {
     // Member object for the chat services
     private BluetoothPrintDriver mChatService = null;
     TblSalesHead sale = new TblSalesHead();
+    ArrayList<TblSalesDetail> products = new ArrayList<>();
 
 
     @Override
@@ -83,7 +88,7 @@ public class InvoiceActivity extends AppCompatActivity {
         sale = SQLite.select().
                 from(TblSalesHead.class).
                 where(TblSalesHead_Table.IdSalesHead.eq(Long.valueOf(saleID))).querySingle();
-        ArrayList<TblSalesDetail> products = (ArrayList<TblSalesDetail>)  SQLite.select().
+        products = (ArrayList<TblSalesDetail>)  SQLite.select().
                 from(TblSalesDetail.class).
                 where(TblSalesDetail_Table.saleHead_IdSalesHead.eq(Long.valueOf(saleID))).
                 and(TblSalesDetail_Table.SalesTypeAgencyID.isNull()).queryList();
@@ -323,6 +328,16 @@ public class InvoiceActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // continue with void
                         sale.setStatus(1);
+                        sale.setTotal(0.0);
+                        List<TblSalesDetail> products_update = new ArrayList();
+                        for (TblSalesDetail product: products) {
+                            product.setUnitPriceS("0");
+                            product.setVatP3(0.0);
+                            product.setVatS(0.0);
+                            products_update.add(product);
+                        }
+                        FlowManager.getDatabase(AppDatabase.class).executeTransaction(
+                                FastStoreModelTransaction.saveBuilder(FlowManager.getModelAdapter(TblSalesDetail.class)).addAll(products_update).build());
                         if(sale.save()){
                             Toast.makeText(InvoiceActivity.this, "Invoice voided successfully", Toast.LENGTH_SHORT).show();
                             TextView tvVoided = (TextView) findViewById(R.id.voided);

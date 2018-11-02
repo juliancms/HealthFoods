@@ -108,12 +108,12 @@ public class CustomInvoiceAdapter extends BaseAdapter {
         }
         Double subtotal = setSubTotal(view);
         Double totalTax = setTotalTax(view);
-        Double credit_note = sale.getCreditNote();
+        credit_note = sale.getCreditNote();
         Double total = (subtotal + totalTax) - credit_note;
         total = round(total, 2);
         TextView total_total = (TextView) activity.findViewById(R.id.total_total);
         TextView tv_credit_note = (TextView) activity.findViewById(R.id.credit_note);
-        if(sale.getTypeInt() == 3){
+        if(sale.getTypeInt() == 3 && sale.getStatus() == 0){
             this.total_s = "TOTAL: ($" + formatter.format(total) + ")";
         } else {
             this.total_s = "TOTAL: $" + formatter.format(total);
@@ -205,6 +205,10 @@ public class CustomInvoiceAdapter extends BaseAdapter {
             BluetoothPrintDriver.BT_Write("Tel: 6456231");
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write("VAT Reg: 229083");
+            if(sale.getStatus() == 1){
+                BluetoothPrintDriver.BT_Write("\r");
+                BluetoothPrintDriver.BT_Write("VOIDED");
+            }
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.LF();
             BluetoothPrintDriver.CR();
@@ -241,12 +245,13 @@ public class CustomInvoiceAdapter extends BaseAdapter {
                 BluetoothPrintDriver.LF();
                 BluetoothPrintDriver.CR();
             }
+            BluetoothPrintDriver.SetAlignMode((byte) 2);
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write(subtotal_s);
             BluetoothPrintDriver.BT_Write("\r");
             BluetoothPrintDriver.BT_Write(totaltax_s);
             BluetoothPrintDriver.BT_Write("\r");
-            if(sale.getCreditNote() > 0.0){
+            if(sale.getCreditNote() > 0.0 && sale.getStatus() == 0){
                 BluetoothPrintDriver.BT_Write("CREDIT NOTE: $" + formatter.format(credit_note));
                 BluetoothPrintDriver.BT_Write("\r");
             }

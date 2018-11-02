@@ -93,6 +93,9 @@ public class CustomInvoicesAdapter extends BaseAdapter {
         Log.e("TOTAL", "getView: " + total_total );
         Log.e("CREDIT note", "getView: " + credit_note );
         Double total_with_credit = total_total - credit_note;
+        if(sales.get(position).getStatus() == 0){
+            credit_note = 0.0;
+        }
         tvTotal.setText("$ " + round(total_with_credit, 2));
         return convertView;
     }
